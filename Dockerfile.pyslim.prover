@@ -1,0 +1,25 @@
+FROM anon2025dpeval/zkputility:latest
+
+# Virtual environment
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+WORKDIR /app
+
+# Copy all code (modules, apis, utils, etc.)
+COPY . /app
+
+RUN chmod +x /app/start_apis.sh 
+RUN pip install --upgrade pip
+RUN pip install -r /app/requirements.txt
+RUN pip install psutil ezkl==22.0.1
+
+# EZKL SRS – assuming base image already has kzg20.srs here
+ENV EZKL_SRS=/root/.ezkl/srs/kzg20.srs
+
+# KS API port
+ENV API_ks_port=5013 API_acc_port=5012 API_lrt_port=5014
+
+EXPOSE 5013 5012 5014
+
+CMD ["/app/start_apis.sh"]

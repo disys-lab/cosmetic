@@ -1,0 +1,35 @@
+services:
+  COSMeTICprover:
+    image: anon2026dpeval/cosmeticprover:latest
+    container_name: COSMeTICprover
+    restart: unless-stopped
+    environment:
+      API_acc_port: "5012"
+      API_ks_port: "5013"
+      API_lrt_port: "5014"
+      TARGET_CONTAINER: "COSMeTICprover"
+      STATS_LOGGER_URL: "http://COSMeTICprover-stats-logger:5003"
+    ports:
+      - "5012:5012"
+      - "5013:5013"
+      - "5014:5014"
+    volumes:
+      - results_data:/app/results
+    depends_on:
+      - COSMeTICprover-stats-logger
+
+  COSMeTICprover-stats-logger:
+    image: anon2026dpeval/cosmeticstatslogger:latest
+    container_name: COSMeTICprover-stats-logger
+    restart: unless-stopped
+    ports:
+      - "5003:5003"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - results_data:/COSMeTICprover-stats-logger/results
+    environment:
+      SAMPLE_INTERVAL: "0.5"
+      DOCKER_SCRAPE_INTERVAL: "0.5"
+
+volumes:
+  results_data:

@@ -1,0 +1,51 @@
+# ---------------------------
+# Git & VCS
+# ---------------------------
+.git
+.gitignore
+.gitlab
+.github
+
+# ---------------------------
+# Python cache & virtual envs
+# ---------------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv
+venv/
+env/
+
+# ---------------------------
+# Build artifacts / logs
+# ---------------------------
+*.log
+*.tmp
+*.cache
+*.pid
+
+# ---------------------------
+# OS / Editor junk
+# ---------------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# ---------------------------
+# Large experiment outputs
+# (VERY IMPORTANT for you)
+# ---------------------------
+results/*
+proofs/*
+
+# ---------------------------
+# Not needed in image
+# ---------------------------
+tests/
+docs/
+notebooks/
+*.md

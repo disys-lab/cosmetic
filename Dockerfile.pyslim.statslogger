@@ -1,0 +1,23 @@
+FROM anon2025dpeval/regulator:latest
+ARG py_version=python3.11
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN ${py_version} -m venv /opt/venv
+
+ENV PATH="/opt/venv/bin:$PATH"
+
+WORKDIR /prover_stats_logger
+
+# Copy regulator code into the container
+COPY ./stats_logger/stats_logger.py /prover_stats_logger
+
+COPY ./requirements.txt /prover_stats_logger
+
+RUN pip install --upgrade pip
+RUN pip install -r /prover_stats_logger/requirements.txt
+
+# Expose Flask port (default 5003)
+EXPOSE 5003
+
+CMD ["python3","stats_logger.py"]
