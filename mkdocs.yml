@@ -1,0 +1,81 @@
+site_name: CoSMeTIC
+site_description: >-
+  Cryptographically-Secured Sparse Merkle Tree Inclusion/Exclusion Commitment —
+  zero-knowledge proofs of membership and non-membership for clinical research.
+repo_url: https://github.com/anon2026dpeval/cosmetic
+repo_name: anon2026dpeval/cosmetic
+
+docs_dir: documents
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Concepts: concepts.md
+  - Architecture: architecture.md
+  - Quickstart: quickstart.md
+  - API Reference: api_reference.md
+  - Docker Deployment: docker_deployment.md
+  - Tutorials:
+    - Dry Run (no ZKP): tutorials/01_dry_run.md
+    - Full ZKP Run: tutorials/02_full_zkp_run.md
+    - End-to-end via API: tutorials/03_api_workflow.md
+  - Code Reference:
+    - merkletree/:
+      - SparseMerkleTree: code/merkletree/SparseMerkleTree.md
+      - MerkleProver: code/merkletree/MerkleProver.md
+    - transformers/:
+      - Overview & Shared Interface: code/transformers/index.md
+      - FlowThrough: code/transformers/FlowThrough.md
+      - Affine: code/transformers/Affine.md
+      - Exponent: code/transformers/Exponent.md
+      - Length: code/transformers/Length.md
+      - BinCount: code/transformers/BinCount.md
+      - LogisticFunction: code/transformers/LogisticFunction.md
+      - LogisticLogLikelihood: code/transformers/LogisticLogLikelihood.md
+    - aggregators/:
+      - Adder: code/aggregators/Adder.md
+    - modules/:
+      - LogisticAccuracy: code/modules/LogisticAccuracy.md
+      - LogisticLRT: code/modules/LogisticLRT.md
+      - KolmogorovSmirnov: code/modules/KolmogorovSmirnov.md
+    - postaggregators/:
+      - LRTStatistic: code/postaggregators/LRTStatistic.md
+      - MaxAbsGap: code/postaggregators/MaxAbsGap.md
+    - stats_logger/:
+      - stats_logger: code/stats_logger/stats_logger.md
+    - utils/:
+      - data: code/utils/data.md
