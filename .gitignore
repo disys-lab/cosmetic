@@ -27,7 +27,6 @@ out2.pt
 *.onnx
 *.compiled
 ./results/
-documents/*
 meliso_old/*
 build/*
 *.txt
@@ -35,3 +34,4 @@ build/*
 /test.py
 /test_mock_lrt.py
 !requirements.txt
+.venv/
