@@ -9,7 +9,7 @@
  *   Name: DOCS_PASSWORD
  *
  * Share the following with reviewers (e.g. via the paper submission system):
- *   URL:      https://cosmetic.pages.dev
+ *   URL:      https://cosmetic-5gt.pages.dev
  *   Password: <value of DOCS_PASSWORD>
  *   (username can be anything)
  */
