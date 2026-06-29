@@ -8,6 +8,14 @@
 
 ---
 
+## Resources
+
+| Link | Description |
+|------|-------------|
+| [GitHub Repository](https://github.com/disys-lab/cosmetic) | Open source code and issue tracker |
+
+---
+
 ## Guides
 
 | File | Description |
