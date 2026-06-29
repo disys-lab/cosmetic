@@ -3,9 +3,7 @@ This is a cryptograhically secure method to prove that certain user's informatio
 This can be used for any commutative operations like sum, multiply, minimum and maximum. As a result, it can prove to be a 
 very robust mechanism to show whether certain user information was used in computing the global aggregate. On the flip
 side it is also capable of proving non-inclusion. Under the hood, this framework uses Sparse Merkle Trees(SMT) to prove
-membership and non-membership. The proving mechanism is supported using zk_SNARKs powered by the EZKL framework. 
-
-Our documentation, examples and quickstart guide can be found [here](https://disys-lab.github.io/cosmetic/).
+membership and non-membership. The proving mechanism is supported using zk_SNARKs powered by the EZKL framework.
 
 ## Foundational Terms
 This framework basically relies on the following for user i:
