@@ -15,8 +15,27 @@ services:
       - "5014:5014"
     volumes:
       - results_data:/app/results
+      - ./proofs:/app/proofs
+      - ./data:/app/data
+      - ./api_acc_test.py:/app/api_acc_test.py
+      - ./api_ks_test.py:/app/api_ks_test.py
+      - ./api_lrt_test.py:/app/api_lrt_test.py
     depends_on:
       - COSMeTICprover-stats-logger
+
+  COSMeTICprover-input-files:
+    image: anon2026dpeval/cosmeticprover:latest
+    container_name: COSMeTICprover-input-files
+    restart: unless-stopped
+    environment:
+      API_input_files_port: "5015"
+    ports:
+      - "5015:5015"
+    volumes:
+      - ./proofs:/app/proofs
+      - ./api_input_files.py:/app/api_input_files.py
+    working_dir: /app
+    command: python api_input_files.py
 
   COSMeTICprover-stats-logger:
     image: anon2026dpeval/cosmeticstatslogger:latest

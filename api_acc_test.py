@@ -275,6 +275,57 @@ def _handle_artifact_zip_request(kind: str, label: str, zip_name: str):
     zip_buf.seek(0)
     return send_file(io.BytesIO(zip_buf.read()),mimetype="application/zip",as_attachment=True,download_name=zip_name,)
 
+def _check_hash_in_proofs(raw_hash: str):
+    """
+    Check if a raw hash exists in the ACC proof results by looking for input_<hash>.json files
+    in both log_acc and log_acc_length proof-results folders.
+    
+    Returns:
+        dict with keys: found_in_log_acc, found_in_log_acc_length, found_in_both, exists
+    """
+    found_in_log_acc = False
+    found_in_log_acc_length = False
+    
+    # Search in log_acc proof-results folders
+    log_acc_base = os.path.join(PROOFS_DIR, "log_acc", "1")
+    if os.path.isdir(log_acc_base):
+        # Find all proof-results-* directories
+        for item in os.listdir(log_acc_base):
+            proof_results_dir = os.path.join(log_acc_base, item)
+            if os.path.isdir(proof_results_dir) and item.startswith("proof-results-"):
+                ltr_dir = os.path.join(proof_results_dir, "ltr")
+                if os.path.isdir(ltr_dir):
+                    input_file = os.path.join(ltr_dir, f"input_{raw_hash}.json")
+                    if os.path.isfile(input_file):
+                        found_in_log_acc = True
+                        break
+    
+    # Search in log_acc_length proof-results folders
+    log_acc_length_base = os.path.join(PROOFS_DIR, "log_acc_length", "1")
+    if os.path.isdir(log_acc_length_base):
+        # Find all proof-results-* directories
+        for item in os.listdir(log_acc_length_base):
+            proof_results_dir = os.path.join(log_acc_length_base, item)
+            if os.path.isdir(proof_results_dir) and item.startswith("proof-results-"):
+                ltr_dir = os.path.join(proof_results_dir, "ltr")
+                if os.path.isdir(ltr_dir):
+                    input_file = os.path.join(ltr_dir, f"input_{raw_hash}.json")
+                    if os.path.isfile(input_file):
+                        found_in_log_acc_length = True
+                        break
+    
+    found_in_both = found_in_log_acc and found_in_log_acc_length
+    exists = found_in_log_acc or found_in_log_acc_length
+    
+    return {
+        "test_name": "logistic accuracy",
+        "hash": raw_hash,
+        "found_in_log_acc": found_in_log_acc,
+        "found_in_log_acc_length": found_in_log_acc_length,
+        "found_in_both": found_in_both,
+        "exists": exists
+    }
+
 def _verify_proofs(job_id: str):
     raw_user_hash, smt_list, proofs_by_smt = proofs_for_job(job_id)
     results = []
@@ -308,6 +359,33 @@ def acc_setup():
         payload = {} 
     job_id = _enqueue("acc-setup", payload)
     return jsonify({"job_id": job_id, "status_url": f"/jobs/{job_id}"}), 202
+
+@app.post("/check-hash/")
+def check_hash():
+    """
+    Check if a raw hash exists in the ACC proof results.
+    Looks for input_<hash>.json files in both log_acc and log_acc_length proof-results folders.
+    
+    Request body:
+        {"user_hash": "0d"}  # or "5d", "a6", etc.
+    
+    Returns:
+        {
+            "hash": "0d",
+            "found_in_log_acc": true/false,
+            "found_in_log_acc_length": true/false,
+            "found_in_both": true/false,
+            "exists": true/false
+        }
+    """
+    payload_data = request.get_json() or {}
+    user_hash = payload_data.get("user_hash")
+    
+    if not user_hash:
+        return jsonify({"error": True, "message": "user_hash is required"}), 400
+    
+    result = _check_hash_in_proofs(user_hash)
+    return jsonify(result), 200
 
 @app.post("/prove-hash/")
 def prove_hash_endpoint():

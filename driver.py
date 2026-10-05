@@ -1,4 +1,4 @@
-from MerkleProver import MerkleProver
+from merkletree.MerkleProver import MerkleProver
 import torch, os, sys
 from aggregators.Adder import Adder #,AdderNumericCheck
 from transformers.FlowThrough import FlowThrough

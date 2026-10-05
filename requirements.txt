@@ -29,3 +29,10 @@ typing_extensions==4.14.0
 tzdata==2025.2
 requests==2.32.4
 docker==7.1.0
+# Core runtime deps required for local (non-Docker) runs.
+# torch is left unpinned and installs the default CPU build; pin a +cu* build
+# (see https://pytorch.org) if you need GPU acceleration.
+flask==3.0.3
+torch
+numpy
+psutil==5.9.8
