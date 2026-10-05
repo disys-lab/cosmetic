@@ -130,16 +130,53 @@ To do this the prover needs to reveal the following either publicly or to a trus
 
 ### Prerequisites
 Install dependencies prior to running by executing the following command:
-`pip install -r requirements.req`
+`pip install -r requirements.txt`
+
+### Input data (required)
+
+The input datasets the driver and APIs load are committed under [`data/`](data/), so a
+fresh clone already has everything it needs — no separate download step. The folder
+contains:
+
+* `data_for_logreg.pkl`, `data_for_logreg_small.pkl` (logistic accuracy / LRT)
+* `data_for_linearreg_small.pkl`
+* `data_for_ks_test.pkl` (KS test)
+* `logistic_regression_coefs.pkl`, `logreg_glm_fits.pkl`
+* `data/csv_original/` — CSV exports of the same datasets (for inspection)
+
+> Note: the `data/` folder is listed in `.gitignore`; these specific files are
+> force-committed so the project runs out of the box. New files dropped into `data/`
+> will still be ignored by default.
+
+#### Exploring the datasets (optional)
+
+Two guides describe what is inside the `.pkl` files:
+
+* [`DATA_STRUCTURE.md`](DATA_STRUCTURE.md) — keys, types, and shapes of each dataset.
+* [`HOW_THE_DATA_LOOKS.md`](HOW_THE_DATA_LOOKS.md) — the datasets shown as tables (rows = people, columns = features).
+
+Helper scripts (they only read the `.pkl` files and are not needed to run the driver or APIs):
+
+| Script | What it does | Output |
+|---|---|---|
+| [`inspect_datasets.py`](inspect_datasets.py) | Prints keys, shapes, and sample values | terminal |
+| [`visualize_datasets.py`](visualize_datasets.py) | Writes easy-to-read table views | `data/views/` (created when you run it; not committed) |
+| [`export_original_to_csv.py`](export_original_to_csv.py) | Exports the datasets to CSV, unchanged | `data/csv_original/` |
+
+Run them with `python <script>.py`, or inside the prover image:
+
+```bash
+docker run --rm -v "$(pwd):/workspace" -w /workspace anon2026dpeval/cosmeticprover:latest python3 inspect_datasets.py
+```
 
 ### Environment Variables
-There are 4 runtime environment variables that need to be set.
+There are 5 runtime environment variables that control a run.
 1. `ZKP_MODE`: Determines whether to create the zkSNARKs the Sparse Merkle Trees. This includes both leaf transform and aggregator. Default is 1.
 2. `GEN_FULL_PROOF`: Determines whether to create a zkSNARK for each step of the aggregator from leaf to root. 
    Setting this value to 1 will mandate a zkSNARK for each hop. Setting a value of 0 will mean that the mechanism skips 
    generating proofs for levels where no changes in the hash string occur due to default left or right nodes. Default is 0.
 3. `SETUP_MRP`: Setup the proving circuit for the MerkleProver aggregator. Default is 0
-4. `SETUP_LTR`: Setup the proving circuit for the leaf transformers. Sefault is 0.
+4. `SETUP_LTR`: Setup the proving circuit for the leaf transformers. Default is 0.
 5. `ID`: ID for reusing already generated circuits. Default is `NoneType` in Python. 
     For example, if you have a MerkleProver defined as follows:
     ```commandline
@@ -165,7 +202,7 @@ If `ZKP_MODE` is not set, framework will use the compiled circuits for leaf and 
 ### Running the Program
 To run the code simply execute on your command line:
 ```ID=<your-id-string> ZKP_MODE=1 GEN_FULL_PROOF=1 SETUP_MRP=1 SETUP_LTR=1 python driver.py```
-This will run the driver script with all environm
+This runs the driver script with all environment variables set explicitly.
 
 ### Dry Runs (without generating zk-SNARKs), a faster and easier method to debug and test.
 To quickly get setup, run the driver by executing:
@@ -193,9 +230,9 @@ python -c 'import onnx; m=onnx.load("proofs/logistic_accuracy/log_acc_length/503
 
 This exposes **three Flask APIs** that generate and verify **EZKL proofs** for three tests:
 
-* **`api_acc.py`** → Logistic **Accuracy** test
-* **`api_lrt.py`** → Logistic **Likelihood Ratio Test** (**FULL vs REDUCED**)
-* **`api_ks.py`** → **Kolmogorov–Smirnov (KS)** test
+* **`api_acc_test.py`** → Logistic **Accuracy** test
+* **`api_lrt_test.py`** → Logistic **Likelihood Ratio Test** (**FULL vs REDUCED**)
+* **`api_ks_test.py`** → **Kolmogorov–Smirnov (KS)** test
 
 All three APIs use the same job pattern:
 
@@ -285,14 +322,14 @@ Each test uses a **different nonce dimensionality**, determined by the underlyin
 
 ## 1) API Overview
 
-### 1.1 Accuracy API (`api_acc.py`)
+### 1.1 Accuracy API (`api_acc_test.py`)
 
 Purpose: Prove **logistic accuracy** computation using two transformers:
 
 * `length`
 * `acc`
 
-### 1.2 LRT API (`api_lrt.py`)
+### 1.2 LRT API (`api_lrt_test.py`)
 
 Purpose: Prove Logistic Likelihood Ratio Test comparing:
 
@@ -301,7 +338,7 @@ Purpose: Prove Logistic Likelihood Ratio Test comparing:
 
 Also supports downloading a **precomputed abs-gap proof** (if built in your pipeline).
 
-### 1.3 KS API (`api_ks.py`)
+### 1.3 KS API (`api_ks_test.py`)
 
 Purpose: Prove KS pipeline for:
 
@@ -309,6 +346,16 @@ Purpose: Prove KS pipeline for:
 * `s2` (sample 2 SMT)
 
 Also supports downloading **precomputed abs-gap proof**.
+
+### 1.4 Input Files API (`api_input_files.py`)
+
+Purpose: a standalone helper service (default port `5015`) that lists and downloads
+all `input_<hash>.json` files produced across the ACC, LRT, and KS proof-results
+folders. See [section 11](#11-input-files-api-port-5015) for details.
+
+> Each of the ACC / LRT / KS APIs also exposes a `POST /check-hash/` endpoint to
+> quickly test whether proofs for a given `user_hash` already exist. See
+> [section 3.4](#34-check-if-a-hash-has-proofs-check-hash).
 
 ---
 
@@ -532,6 +579,55 @@ curl -X POST "http://<HOST>:<PORT>/prove-hash/" \
 
 ---
 
+### 3.4 Check if a hash has proofs (`/check-hash/`)
+
+#### Why this exists
+
+Before submitting (or to confirm after generating), you can check whether
+`input_<hash>.json` files already exist for a given `user_hash`. Each API scans its
+own `proof-results-*/ltr/` folders. This endpoint is available on **all three APIs**
+(ACC, KS, LRT) and reads the filesystem only — it does not generate anything.
+
+> On a fresh clone the `proofs/` directory is empty (it is gitignored), so this will
+> report `exists: false` until you have run setup and generated proofs for that hash.
+
+> **Default `ID` only:** this endpoint looks only in the prover ID folder `1`
+> (`proofs/<test>/<branch>/1/proof-results-*/ltr/`), which is what the default
+> `"ID": "1,1"` produces. If you ran setup with a different `ID` (e.g. `"5,5"`), it will
+> report `exists: false` even when proofs exist.
+
+```bash
+curl -X POST "http://<HOST>:<PORT>/check-hash/" \
+  -H "Content-Type: application/json" \
+  -d '{ "user_hash": "<RAW_HASH>" }'
+```
+
+#### What you get back
+
+The response reports per-branch results plus `found_in_both` and `exists`. The branch
+keys differ by API:
+
+* **ACC** (`5012`): `found_in_log_acc`, `found_in_log_acc_length`
+* **KS** (`5013`): `found_in_s1`, `found_in_s2`
+* **LRT** (`5014`): `found_in_ll_full`, `found_in_ll_reduced`
+
+Example (ACC):
+
+```json
+{
+  "test_name": "logistic accuracy",
+  "hash": "0d",
+  "found_in_log_acc": true,
+  "found_in_log_acc_length": true,
+  "found_in_both": true,
+  "exists": true
+}
+```
+
+If `user_hash` is missing, the API returns `400` with `{"error": true, "message": "user_hash is required"}`.
+
+---
+
 ## 4) Check job status
 
 All APIs use the same endpoint:
@@ -714,27 +810,136 @@ If you don’t care about deterministic runs:
 
 * Remove `"nonce": ...` entirely and server generates one.
 
+---
 
+## 11) Input Files API (port 5015)
+
+A standalone service ([`api_input_files.py`](api_input_files.py)) that aggregates the
+`input_<hash>.json` files generated across **all three** test pipelines (ACC, LRT, KS).
+It runs as its own container in the Docker stack (default port `5015`) and only reads
+from the shared `proofs/` directory — it never generates proofs.
+
+It scans these branches under `proofs/`:
+
+* ACC: `logistic_accuracy/log_acc`, `logistic_accuracy/log_acc_length`
+* LRT: `logistic_lrt/ll_full`, `logistic_lrt/ll_reduced`
+* KS:  `ks/simple_sum_bincount_s1`, `ks/simple_sum_bincount_s2`
+
+> **Default `ID` only:** within each branch it reads only the prover ID folder `1`
+> (`<branch>/1/proof-results-*/ltr/`), i.e. runs made with the default `"ID": "1,1"`.
+> Proofs generated with any other `ID` are not listed or zipped.
+
+### Endpoints
+
+* `GET /input-files/` (alias `GET /input-files/list`)
+  Returns JSON listing every input file found, each with `app`, `branch`,
+  `proof_results`, `hash`, and `path` (relative to the proofs root), plus a `count`.
+
+```bash
+curl -s "http://<HOST>:5015/input-files/"
+```
+
+* `GET /input-files/zip`
+  Streams a zip of every `input_<hash>.json`, named
+  `{app}/{branch}/{proof_results}/ltr/input_{hash}.json` inside the archive.
+  Returns `404` if none are found.
+
+```bash
+curl -OJ "http://<HOST>:5015/input-files/zip"
+```
+
+* `GET /health`
+  Liveness probe — returns `{"status": "ok", "service": "input-files"}`.
+
+The listening port can be overridden with the `API_input_files_port` environment variable.
+
+---
+
+## Running the APIs locally (without Docker)
+
+Docker (next section) is the recommended way to run the stack. If you prefer to run
+directly from source, follow these steps.
+
+### 1) Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+This installs `flask`, `torch` (CPU build), `numpy`, `ezkl`, and the rest. For GPU
+acceleration, install a CUDA build of `torch` from <https://pytorch.org> instead of the
+default one pulled by `requirements.txt`.
+
+### 2) Provide the EZKL structured reference string (SRS)
+
+Proof generation needs an EZKL SRS file. Point `EZKL_SRS` at it (the Docker image uses
+`/root/.ezkl/srs/kzg20.srs`):
+
+```bash
+export EZKL_SRS=/path/to/kzg20.srs
+```
+
+If you don't already have one, generate it with the EZKL CLI/Python API (see the
+[EZKL docs](https://docs.ezkl.xyz)) before running setup.
+
+### 3) Make sure the input data is present
+
+The APIs load `data/*.pkl` at import time and read/write under `proofs/`. See
+[Input data (required)](#input-data-required) above — without the datasets the APIs
+fail to start.
+
+### 4) Start the APIs
+
+Each API binds `0.0.0.0:<port>` and reads its port from an env var
+(`API_acc_port` / `API_ks_port` / `API_lrt_port`, defaults `5012` / `5013` / `5014`).
+
+Start all three at once with the helper script:
+
+```bash
+API_acc_port=5012 API_ks_port=5013 API_lrt_port=5014 ./start_apis.sh
+```
+
+Or run a single API:
+
+```bash
+python api_acc_test.py     # ACC on 5012
+python api_ks_test.py      # KS  on 5013
+python api_lrt_test.py     # LRT on 5014
+```
+
+Optionally run the input-files helper too:
+
+```bash
+API_input_files_port=5015 python api_input_files.py
+```
+
+Once running, the setup/prove/verify workflow is identical to the Docker setup — use
+`http://localhost:<port>/...`.
+
+---
 
 ## Running the Prover API Stack (Docker Compose)
 
-This repository provides a two-container Docker stack defined in:
+This repository provides a three-container Docker stack defined in:
 
-`docker-compose.yml` – runs the prover APIs and the stats logger
+`docker-compose.yml` – runs the prover APIs, the input-files helper, and the stats logger
 
 `Makefile` – builds the required Docker images locally
 
-1. **`zkpprover`**
+1. **`COSMeTICprover`**
    Runs the three Flask APIs that generate/verify EZKL proofs:
 
    * ACC on `5012`
    * KS on `5013`
    * LRT on `5014`
 
-2. **`prover-stats-logger`**
-   Collects runtime stats (CPU/memory + Docker container stats) during proof generation and saves snapshots.
+2. **`COSMeTICprover-input-files`**
+   Runs the input-files helper API (see [section 11](#11-input-files-api-port-5015)) on `5015`.
 
-Both containers share a single Docker volume called **`results_data`**, so proof outputs and stats logs are stored together.
+3. **`COSMeTICprover-stats-logger`**
+   Collects runtime stats (CPU/memory + Docker container stats) during proof generation and saves snapshots, on `5003`.
+
+Proofs are written to the local **`./proofs`** folder (shared by the prover and input-files containers). See [Where results are stored](#4-where-results-are-stored).
 
 ---
 
@@ -747,6 +952,7 @@ Make sure you have:
 * These ports available on your machine:
 
   * `5012`, `5013`, `5014` (prover APIs)
+  * `5015` (input-files API)
   * `5003` (stats logger)
 
 ---
@@ -759,7 +965,7 @@ From the directory containing `docker-compose.yml`, run:
 docker compose up -d
 ```
 
-Check that both containers are running:
+Check that all three containers are running:
 
 ```bash
 docker ps
@@ -774,11 +980,14 @@ The prover container uses:
 * `API_acc_port`, `API_ks_port`, `API_lrt_port`
   Controls which ports the Flask APIs listen on inside the container.
 
+* `API_input_files_port`
+  Controls the port for the input-files helper container (default `5015`).
+
 * `STATS_LOGGER_URL`
-  The prover calls this URL to trigger snapshot collection (example: `http://prover-stats-logger:5003`).
+  The prover calls this URL to trigger snapshot collection (example: `http://COSMeTICprover-stats-logger:5003`).
 
 * `TARGET_CONTAINER`
-  Tells the stats logger which container to monitor by name (here: `zkpprover`).
+  Tells the stats logger which container to monitor by name (here: `COSMeTICprover`).
 
 The stats logger uses:
 
@@ -792,14 +1001,31 @@ The stats logger uses:
 
 ### 4) Where results are stored
 
-The stack uses a shared Docker volume:
+**Proofs:** the prover writes all proof artifacts (keys, compiled circuits, and
+`proof-results-*` folders) to `/app/proofs` inside the container. `docker-compose.yml`
+mounts this to **`./proofs` on your machine** (next to `docker-compose.yml`), so proofs
+are directly visible on the host and are kept after `docker compose down -v`. The
+input-files container mounts the same `./proofs` folder and only reads from it.
 
-* Prover writes proof outputs to: `/app/results`
-* Stats logger writes logs to: `/prover-stats-logger/results`
+**Stats logs:** the stats logger saves snapshots to `/prover-stats-logger/results`
+inside its own container. The `results_data` volume is mounted at a different path
+(`/COSMeTICprover-stats-logger/results`), so these snapshots are **not** stored in the
+volume and are lost when the container is removed. Copy them out first if you need them:
 
-Both map to the same named volume: `results_data`.
+```bash
+docker cp COSMeTICprover-stats-logger:/prover-stats-logger/results ./stats-results
+```
 
-> If you want results to appear in a local folder on the host (instead of a Docker-managed volume), replace the volume with a bind mount, e.g. `./results:/app/results`.
+**Local API code:** the compose file also mounts `api_acc_test.py`, `api_ks_test.py`,
+`api_lrt_test.py` (and `api_input_files.py` for the input-files container) from your
+checkout over the copies in the image. Edits to these files take effect after
+`docker compose restart`, without rebuilding. Other code (e.g. `modules/`,
+`merkletree/`) still comes from the image, so rebuild it (see the Makefile section)
+after changing those.
+
+**Input data:** the prover image does not include the `data/` datasets, so the compose
+file mounts the repository's `./data` folder to `/app/data`. Without this mount, setup
+fails with `No such file or directory: './data/...pkl'`.
 
 ---
 
@@ -809,7 +1035,7 @@ Both map to the same named volume: `results_data`.
 docker compose down
 ```
 
-To remove volumes too (deletes saved results):
+To remove volumes too (proofs in `./proofs` are kept):
 
 ```bash
 docker compose down -v

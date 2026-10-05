@@ -280,6 +280,57 @@ def _handle_artifact_zip_request(kind, label, zip_name):
     zip_buf.seek(0)
     return send_file(io.BytesIO(zip_buf.read()),mimetype="application/zip",as_attachment=True,download_name=zip_name,)
 
+def _check_hash_in_proofs(raw_hash: str):
+    """
+    Check if a raw hash exists in the KS proof results by looking for input_<hash>.json files
+    in both s1 and s2 proof-results folders.
+    
+    Returns:
+        dict with keys: found_in_s1, found_in_s2, found_in_both, exists
+    """
+    found_in_s1 = False
+    found_in_s2 = False
+    
+    # Search in s1 proof-results folders
+    s1_base = os.path.join(PROOFS_DIR, "simple_sum_bincount_s1", "1")
+    if os.path.isdir(s1_base):
+        # Find all proof-results-* directories
+        for item in os.listdir(s1_base):
+            proof_results_dir = os.path.join(s1_base, item)
+            if os.path.isdir(proof_results_dir) and item.startswith("proof-results-"):
+                ltr_dir = os.path.join(proof_results_dir, "ltr")
+                if os.path.isdir(ltr_dir):
+                    input_file = os.path.join(ltr_dir, f"input_{raw_hash}.json")
+                    if os.path.isfile(input_file):
+                        found_in_s1 = True
+                        break
+    
+    # Search in s2 proof-results folders
+    s2_base = os.path.join(PROOFS_DIR, "simple_sum_bincount_s2", "1")
+    if os.path.isdir(s2_base):
+        # Find all proof-results-* directories
+        for item in os.listdir(s2_base):
+            proof_results_dir = os.path.join(s2_base, item)
+            if os.path.isdir(proof_results_dir) and item.startswith("proof-results-"):
+                ltr_dir = os.path.join(proof_results_dir, "ltr")
+                if os.path.isdir(ltr_dir):
+                    input_file = os.path.join(ltr_dir, f"input_{raw_hash}.json")
+                    if os.path.isfile(input_file):
+                        found_in_s2 = True
+                        break
+    
+    found_in_both = found_in_s1 and found_in_s2
+    exists = found_in_s1 or found_in_s2
+    
+    return {
+        "test_name": "ks",
+        "hash": raw_hash,
+        "found_in_s1": found_in_s1,
+        "found_in_s2": found_in_s2,
+        "found_in_both": found_in_both,
+        "exists": exists
+    }
+
 def _verify_proofs(job_id: str):
     raw_user_hash, smt_list, proofs_by_smt = proofs_for_job(job_id)
     results = []
@@ -292,7 +343,7 @@ def _verify_proofs(job_id: str):
                     st_list, _ = _resolve_artifacts({"smt": [smt], "which": [kind]}, "settings")
                     vk_path = vk_list[0]["path"]
                     settings_path = st_list[0]["path"]
-                    ok = ezkl.verify(proof_path=proof_path,vk_path=vk_path,srs_path=None,settings_path=settings_path,)
+                    entry["ok"] = bool(ezkl.verify(proof_path=proof_path,vk_path=vk_path,srs_path=None,settings_path=settings_path,))
                 except Exception as e:
                     entry["ok"] = False
                     entry["error"] = str(e)
@@ -349,6 +400,33 @@ def download_job_proofs(job_id):
         return send_file(io.BytesIO(data),mimetype="application/zip",as_attachment=True,download_name=zname,)
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 400
+
+@app.post("/check-hash/")
+def check_hash():
+    """
+    Check if a raw hash exists in the KS proof results.
+    Looks for input_<hash>.json files in both s1 and s2 proof-results folders.
+    
+    Request body:
+        {"user_hash": "3e"}  # or "4d", "a6", etc.
+    
+    Returns:
+        {
+            "hash": "3e",
+            "found_in_s1": true/false,
+            "found_in_s2": true/false,
+            "found_in_both": true/false,
+            "exists": true/false
+        }
+    """
+    payload_data = request.get_json() or {}
+    user_hash = payload_data.get("user_hash")
+    
+    if not user_hash:
+        return jsonify({"error": True, "message": "user_hash is required"}), 400
+    
+    result = _check_hash_in_proofs(user_hash)
+    return jsonify(result), 200
 
 @app.get("/abs-gap-proof")
 def download_abs_gap_proof():

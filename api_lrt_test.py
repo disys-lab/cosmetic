@@ -279,6 +279,58 @@ def _handle_artifact_zip_request(kind: str, label: str, zip_name: str):
     zip_buf.seek(0)
     return send_file(io.BytesIO(zip_buf.read()),mimetype="application/zip",as_attachment=True,download_name=zip_name,)
 
+def _check_hash_in_proofs(raw_hash: str):
+    """
+    Check if a raw hash exists in the LRT proof results by looking for input_<hash>.json files
+    in both ll_full and ll_reduced proof-results folders.
+    Note: ll_full may have multiple proof-results folders, so we check all of them.
+    
+    Returns:
+        dict with keys: found_in_ll_full, found_in_ll_reduced, found_in_both, exists
+    """
+    found_in_ll_full = False
+    found_in_ll_reduced = False
+    
+    # Search in ll_full proof-results folders (may have multiple)
+    ll_full_base = os.path.join(PROOFS_DIR, "ll_full", "1")
+    if os.path.isdir(ll_full_base):
+        # Find all proof-results-* directories
+        for item in os.listdir(ll_full_base):
+            proof_results_dir = os.path.join(ll_full_base, item)
+            if os.path.isdir(proof_results_dir) and item.startswith("proof-results-"):
+                ltr_dir = os.path.join(proof_results_dir, "ltr")
+                if os.path.isdir(ltr_dir):
+                    input_file = os.path.join(ltr_dir, f"input_{raw_hash}.json")
+                    if os.path.isfile(input_file):
+                        found_in_ll_full = True
+                        break  # Found in at least one proof-results folder
+    
+    # Search in ll_reduced proof-results folders
+    ll_reduced_base = os.path.join(PROOFS_DIR, "ll_reduced", "1")
+    if os.path.isdir(ll_reduced_base):
+        # Find all proof-results-* directories
+        for item in os.listdir(ll_reduced_base):
+            proof_results_dir = os.path.join(ll_reduced_base, item)
+            if os.path.isdir(proof_results_dir) and item.startswith("proof-results-"):
+                ltr_dir = os.path.join(proof_results_dir, "ltr")
+                if os.path.isdir(ltr_dir):
+                    input_file = os.path.join(ltr_dir, f"input_{raw_hash}.json")
+                    if os.path.isfile(input_file):
+                        found_in_ll_reduced = True
+                        break  # Found in at least one proof-results folder
+    
+    found_in_both = found_in_ll_full and found_in_ll_reduced
+    exists = found_in_ll_full or found_in_ll_reduced
+    
+    return {
+        "test_name": "logistic lrt",
+        "hash": raw_hash,
+        "found_in_ll_full": found_in_ll_full,
+        "found_in_ll_reduced": found_in_ll_reduced,
+        "found_in_both": found_in_both,
+        "exists": exists
+    }
+
 def _verify_proofs(job_id: str):
     raw_user_hash, smt_list, proofs_by_smt = proofs_for_job(job_id)
     results = []
@@ -291,7 +343,7 @@ def _verify_proofs(job_id: str):
                     st_list, _ = _resolve_artifacts({"smt": [smt], "which": [kind]}, "settings")
                     vk_path = vk_list[0]["path"]
                     settings_path = st_list[0]["path"]
-                    ok = ezkl.verify(proof_path=proof_path,vk_path=vk_path,srs_path=None,settings_path=settings_path,)
+                    entry["ok"] = bool(ezkl.verify(proof_path=proof_path,vk_path=vk_path,srs_path=None,settings_path=settings_path,))
                 except Exception as e:
                     entry["ok"] = False
                     entry["error"] = str(e)
@@ -312,6 +364,34 @@ def lrt_setup():
         payload = {} 
     job_id = _enqueue("lrt-setup", payload)
     return jsonify({"job_id": job_id, "status_url": f"/jobs/{job_id}"}), 202
+
+@app.post("/check-hash/")
+def check_hash():
+    """
+    Check if a raw hash exists in the LRT proof results.
+    Looks for input_<hash>.json files in both ll_full and ll_reduced proof-results folders.
+    Note: ll_full may have multiple proof-results folders - all are checked.
+    
+    Request body:
+        {"user_hash": "00"}  # or "13", "a3", etc.
+    
+    Returns:
+        {
+            "hash": "00",
+            "found_in_ll_full": true/false,
+            "found_in_ll_reduced": true/false,
+            "found_in_both": true/false,
+            "exists": true/false
+        }
+    """
+    payload_data = request.get_json() or {}
+    user_hash = payload_data.get("user_hash")
+    
+    if not user_hash:
+        return jsonify({"error": True, "message": "user_hash is required"}), 400
+    
+    result = _check_hash_in_proofs(user_hash)
+    return jsonify(result), 200
 
 @app.post("/prove-hash/")
 def prove_hash_endpoint():

@@ -11,6 +11,7 @@ CoSMeTIC exposes three independent Flask APIs, each targeting a different statis
 | `api_acc_test.py` | Logistic Accuracy | `5012` | Proves accuracy of a logistic classifier |
 | `api_ks_test.py` | Kolmogorov-Smirnov | `5013` | Proves the KS test statistic |
 | `api_lrt_test.py` | Likelihood Ratio Test | `5014` | Proves the LRT statistic (full vs. reduced model) |
+| `api_input_files.py` | Input Files (helper) | `5015` | Lists and downloads the `input_<hash>.json` files from all three tests (read-only; see [section 10](#10-input-files-api-port-5015)) |
 
 Replace `<HOST>` and `<PORT>` in all examples below with the actual server address and port.
 
@@ -21,6 +22,8 @@ Replace `<HOST>` and `<PORT>` in all examples below with the actual server addre
 ```
 POST /<test>/setup          (async) → job_id
 GET  /jobs/<job_id>         → poll until "done"
+
+POST /check-hash/           → do proofs already exist for this user_hash? (optional)
 
 POST /prove-hash/           (async) → job_id
 GET  /jobs/<job_id>         → poll until "done"
@@ -279,3 +282,98 @@ curl -X DELETE "http://<HOST>:<PORT>/jobs/<job-id>"
 ```
 
 Marks the job as cancelled and removes its proof files from disk if the job was in `done` state.
+
+---
+
+## 9. Check if a hash has proofs
+
+Available on all three APIs (ACC, KS, LRT). Checks whether `input_<hash>.json` files already exist for a given `user_hash` in that API's `proof-results-*/ltr/` folders. It only reads the filesystem and never generates anything.
+
+```bash
+curl -X POST "http://<HOST>:<PORT>/check-hash/" \
+  -H "Content-Type: application/json" \
+  -d '{"user_hash": "<RAW_HASH>"}'
+```
+
+### Response structure
+
+Each API reports one flag per SMT, plus `found_in_both` and `exists` (found in at least one):
+
+| API | Port | Per-SMT keys |
+|-----|------|--------------|
+| ACC | `5012` | `found_in_log_acc`, `found_in_log_acc_length` |
+| KS | `5013` | `found_in_s1`, `found_in_s2` |
+| LRT | `5014` | `found_in_ll_full`, `found_in_ll_reduced` |
+
+```json
+{
+  "test_name": "logistic accuracy",
+  "hash": "0d",
+  "found_in_log_acc": true,
+  "found_in_log_acc_length": true,
+  "found_in_both": true,
+  "exists": true
+}
+```
+
+If `user_hash` is missing, the API returns `400` with `{"error": true, "message": "user_hash is required"}`.
+
+!!! note "Default `ID` only"
+    The check looks only in the prover ID folder `1` (`proofs/<test>/<smt>/1/proof-results-*/ltr/`), which is what the default `"ID": "1,1"` produces. Proofs generated with a different setup `ID` are reported as `exists: false`.
+
+---
+
+## 10. Input Files API (port 5015)
+
+A standalone, read-only helper service (`api_input_files.py`) that collects the `input_<hash>.json` files produced by all three tests. It runs as its own container in the Docker stack and reads from the shared `proofs/` directory.
+
+It scans these SMT folders under `proofs/`:
+
+| App | SMT folders |
+|-----|-------------|
+| ACC | `logistic_accuracy/log_acc`, `logistic_accuracy/log_acc_length` |
+| LRT | `logistic_lrt/ll_full`, `logistic_lrt/ll_reduced` |
+| KS | `ks/simple_sum_bincount_s1`, `ks/simple_sum_bincount_s2` |
+
+As with `/check-hash/`, only the default prover ID folder `1` is scanned.
+
+### List input files
+
+```bash
+curl -s "http://<HOST>:5015/input-files/"
+```
+
+`GET /input-files/list` is an alias. Response:
+
+```json
+{
+  "count": 1,
+  "files": [
+    {
+      "app": "acc",
+      "branch": "log_acc",
+      "proof_results": "proof-results-20260625063000",
+      "hash": "0d",
+      "path": "logistic_accuracy/log_acc/1/proof-results-20260625063000/ltr/input_0d.json"
+    }
+  ]
+}
+```
+
+### Download all input files (ZIP)
+
+```bash
+curl -OJ "http://<HOST>:5015/input-files/zip"
+```
+
+Returns `all_input_files.zip`, with entries named `{app}/{branch}/{proof_results}/ltr/input_{hash}.json`. Returns `404` if no input files exist yet.
+
+### Health check
+
+```bash
+curl -s "http://<HOST>:5015/health"
+```
+
+Returns `{"status": "ok", "service": "input-files"}`.
+
+The port can be changed with the `API_input_files_port` environment variable (default `5015`).
