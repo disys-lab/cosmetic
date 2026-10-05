@@ -801,6 +801,72 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#9-check-if-a-hash-has-proofs" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Check if a hash has proofs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Check if a hash has proofs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#response-structure_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Response structure
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-input-files-api-port-5015" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Input Files API (port 5015)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Input Files API (port 5015)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#list-input-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      List input files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download-all-input-files-zip" class="md-nav__link">
+    <span class="md-ellipsis">
+      Download all input files (ZIP)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#health-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      Health check
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2005,6 +2071,72 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#9-check-if-a-hash-has-proofs" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Check if a hash has proofs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Check if a hash has proofs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#response-structure_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Response structure
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-input-files-api-port-5015" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Input Files API (port 5015)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Input Files API (port 5015)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#list-input-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      List input files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download-all-input-files-zip" class="md-nav__link">
+    <span class="md-ellipsis">
+      Download all input files (ZIP)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#health-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      Health check
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2055,20 +2187,30 @@
 <td><code>5014</code></td>
 <td>Proves the LRT statistic (full vs. reduced model)</td>
 </tr>
+<tr>
+<td><code>api_input_files.py</code></td>
+<td>Input Files (helper)</td>
+<td><code>5015</code></td>
+<td>Lists and downloads the <code>input_&lt;hash&gt;.json</code> files from all three tests (read-only; see <a href="#10-input-files-api-port-5015">section 10</a>)</td>
+</tr>
 </tbody>
 </table>
 <p>Replace <code>&lt;HOST&gt;</code> and <code>&lt;PORT&gt;</code> in all examples below with the actual server address and port.</p>
 <hr />
 <h2 id="workflow-overview">Workflow overview<a class="headerlink" href="#workflow-overview" title="Permanent link">&para;</a></h2>
-<p>```
-POST /<test>/setup          (async) → job_id
-GET  /jobs/<job_id>         → poll until "done"</p>
-<p>POST /prove-hash/           (async) → job_id
-GET  /jobs/<job_id>         → poll until "done"</p>
-<p>POST /verify-job/<job_id>   → verification result
-GET  /jobs/<job_id>/download → ZIP of .pf files</p>
-<p>DELETE /jobs/<job_id>       → cleanup
-```</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>POST /&lt;test&gt;/setup          (async) → job_id
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>GET  /jobs/&lt;job_id&gt;         → poll until "done"
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>POST /check-hash/           → do proofs already exist for this user_hash? (optional)
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>POST /prove-hash/           (async) → job_id
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>GET  /jobs/&lt;job_id&gt;         → poll until "done"
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>POST /verify-job/&lt;job_id&gt;   → verification result
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>GET  /jobs/&lt;job_id&gt;/download → ZIP of .pf files
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>DELETE /jobs/&lt;job_id&gt;       → cleanup
+</code></pre></div>
 <hr />
 <h2 id="key-concepts">Key concepts<a class="headerlink" href="#key-concepts" title="Permanent link">&para;</a></h2>
 <h3 id="user_hash"><code>user_hash</code><a class="headerlink" href="#user_hash" title="Permanent link">&para;</a></h3>
@@ -2143,29 +2285,29 @@ GET  /jobs/<job_id>/download → ZIP of .pf files</p>
 <p>Setup builds the SMTs and compiles EZKL circuits (proving keys, verification keys, settings). It must complete before any proof jobs can run.</p>
 <h3 id="invocation-modes">Invocation modes<a class="headerlink" href="#invocation-modes" title="Permanent link">&para;</a></h3>
 <p><strong>Mode 1 — explicit JSON (recommended)</strong></p>
-<p><code>bash
-curl -X POST "http://&lt;HOST&gt;:&lt;PORT&gt;/&lt;TEST&gt;/setup" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "ID": "1,1",
-    "ZKP_MODE": 1,
-    "GEN_FULL_PROOF": 1,
-    "SETUP_MRP": 1,
-    "SETUP_LTR": 1,
-    "ZKP_SCALER": 10,
-    "TREE_HEIGHT": 8,
-    "TEST_INCLUSION": false,
-    "TEST_EXCLUSION": false
-  }'</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"http://&lt;HOST&gt;:&lt;PORT&gt;/&lt;TEST&gt;/setup"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="s1">    "ID": "1,1",</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="s1">    "ZKP_MODE": 1,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="s1">    "GEN_FULL_PROOF": 1,</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="s1">    "SETUP_MRP": 1,</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="s1">    "SETUP_LTR": 1,</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="s1">    "ZKP_SCALER": 10,</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="s1">    "TREE_HEIGHT": 8,</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="s1">    "TEST_INCLUSION": false,</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="s1">    "TEST_EXCLUSION": false</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="s1">  }'</span>
+</code></pre></div>
 <p>Replace <code>&lt;TEST&gt;</code> with <code>acc</code>, <code>ks</code>, or <code>lrt</code>.</p>
 <p><strong>Mode 2 — defaults from environment variables</strong></p>
-<p><code>bash
-curl -X POST "http://&lt;HOST&gt;:&lt;PORT&gt;/&lt;TEST&gt;/setup"</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"http://&lt;HOST&gt;:&lt;PORT&gt;/&lt;TEST&gt;/setup"</span>
+</code></pre></div>
 <p><strong>Mode 3 — partial override</strong></p>
-<p><code>bash
-curl -X POST "http://&lt;HOST&gt;:&lt;PORT&gt;/&lt;TEST&gt;/setup" \
-  -H "Content-Type: application/json" \
-  -d '{"TREE_HEIGHT": 16}'</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"http://&lt;HOST&gt;:&lt;PORT&gt;/&lt;TEST&gt;/setup"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"TREE_HEIGHT": 16}'</span>
+</code></pre></div>
 <h3 id="setup-payload-fields">Setup payload fields<a class="headerlink" href="#setup-payload-fields" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -2224,16 +2366,16 @@ curl -X POST "http://&lt;HOST&gt;:&lt;PORT&gt;/&lt;TEST&gt;/setup" \
 </tbody>
 </table>
 <h3 id="setup-response">Setup response<a class="headerlink" href="#setup-response" title="Permanent link">&para;</a></h3>
-<p><code>json
-{
-  "job_id": "&lt;uuid&gt;",
-  "status_url": "/jobs/&lt;uuid&gt;"
-}</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">"job_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;uuid&gt;"</span><span class="p">,</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">"status_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/jobs/&lt;uuid&gt;"</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">}</span>
+</code></pre></div>
 <hr />
 <h2 id="2-check-job-status">2. Check job status<a class="headerlink" href="#2-check-job-status" title="Permanent link">&para;</a></h2>
 <p>All async operations (setup and prove) return a <code>job_id</code>. Poll until <code>status == "done"</code>.</p>
-<p><code>bash
-curl -s "http://&lt;HOST&gt;:&lt;PORT&gt;/jobs/&lt;job-id&gt;"</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">"http://&lt;HOST&gt;:&lt;PORT&gt;/jobs/&lt;job-id&gt;"</span>
+</code></pre></div>
 <h3 id="status-values">Status values<a class="headerlink" href="#status-values" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -2264,84 +2406,187 @@ curl -s "http://&lt;HOST&gt;:&lt;PORT&gt;/jobs/&lt;job-id&gt;"</code></p>
 <hr />
 <h2 id="3-submit-a-proof-generation-job">3. Submit a proof generation job<a class="headerlink" href="#3-submit-a-proof-generation-job" title="Permanent link">&para;</a></h2>
 <h3 id="acc">ACC<a class="headerlink" href="#acc" title="Permanent link">&para;</a></h3>
-<p><code>bash
-curl -X POST "http://&lt;HOST&gt;:&lt;PORT&gt;/prove-hash/" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "smt_list": ["length", "acc"],
-    "user_hash": "&lt;RAW_HASH&gt;",
-    "nonce": [[0.0, 0.0, 0.0]]
-  }'</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"http://&lt;HOST&gt;:&lt;PORT&gt;/prove-hash/"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="s1">    "smt_list": ["length", "acc"],</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="s1">    "user_hash": "&lt;RAW_HASH&gt;",</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="s1">    "nonce": [[0.0, 0.0, 0.0]]</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="s1">  }'</span>
+</code></pre></div>
 <h3 id="lrt">LRT<a class="headerlink" href="#lrt" title="Permanent link">&para;</a></h3>
-<p><code>bash
-curl -X POST "http://&lt;HOST&gt;:&lt;PORT&gt;/prove-hash/" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "smt_list": ["full", "reduced"],
-    "user_hash": "&lt;RAW_HASH&gt;",
-    "nonce": [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]
-  }'</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"http://&lt;HOST&gt;:&lt;PORT&gt;/prove-hash/"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="s1">    "smt_list": ["full", "reduced"],</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="s1">    "user_hash": "&lt;RAW_HASH&gt;",</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="s1">    "nonce": [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="s1">  }'</span>
+</code></pre></div>
 <h3 id="ks">KS<a class="headerlink" href="#ks" title="Permanent link">&para;</a></h3>
-<p><code>bash
-curl -X POST "http://&lt;HOST&gt;:&lt;PORT&gt;/prove-hash/" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "user_hash": "&lt;RAW_HASH&gt;",
-    "nonce": [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]
-  }'</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"http://&lt;HOST&gt;:&lt;PORT&gt;/prove-hash/"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="s1">    "user_hash": "&lt;RAW_HASH&gt;",</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="s1">    "nonce": [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="s1">  }'</span>
+</code></pre></div>
 <hr />
 <h2 id="4-verify-proofs">4. Verify proofs<a class="headerlink" href="#4-verify-proofs" title="Permanent link">&para;</a></h2>
-<p><code>bash
-curl -s -X POST "http://&lt;HOST&gt;:&lt;PORT&gt;/verify-job/&lt;job-id&gt;"</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"http://&lt;HOST&gt;:&lt;PORT&gt;/verify-job/&lt;job-id&gt;"</span>
+</code></pre></div>
 <h3 id="response-structure">Response structure<a class="headerlink" href="#response-structure" title="Permanent link">&para;</a></h3>
-<p><code>json
-{
-  "ok": true,
-  "user_hash": "&lt;RAW_HASH&gt;",
-  "results": [
-    {"proof_file": "s1/ltr/test_&lt;hash&gt;.pf", "verified": true},
-    ...
-  ]
-}</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">{</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">"ok"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="nt">"user_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;RAW_HASH&gt;"</span><span class="p">,</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="nt">"results"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="p">{</span><span class="nt">"proof_file"</span><span class="p">:</span><span class="w"> </span><span class="s2">"s1/ltr/test_&lt;hash&gt;.pf"</span><span class="p">,</span><span class="w"> </span><span class="nt">"verified"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">},</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="err">...</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="p">}</span>
+</code></pre></div>
 <hr />
 <h2 id="5-download-proofs-zip">5. Download proofs (ZIP)<a class="headerlink" href="#5-download-proofs-zip" title="Permanent link">&para;</a></h2>
-<p><code>bash
-curl -OJ "http://&lt;HOST&gt;:&lt;PORT&gt;/jobs/&lt;job-id&gt;/download"</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>curl<span class="w"> </span>-OJ<span class="w"> </span><span class="s2">"http://&lt;HOST&gt;:&lt;PORT&gt;/jobs/&lt;job-id&gt;/download"</span>
+</code></pre></div>
 <p>The downloaded archive contains <code>.pf</code> proof files organized by SMT and proof type:</p>
-<p><code>&lt;smt_name&gt;/
-  ltr/
-    test_&lt;raw_hash&gt;.pf
-  mrp/
-    test_&lt;raw_hash&gt;_&lt;level&gt;.pf</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>&lt;smt_name&gt;/
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>  ltr/
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>    test_&lt;raw_hash&gt;.pf
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>  mrp/
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    test_&lt;raw_hash&gt;_&lt;level&gt;.pf
+</code></pre></div>
 <hr />
 <h2 id="6-download-precomputed-abs-gap-proof-ks-and-lrt-only">6. Download precomputed abs-gap proof (KS and LRT only)<a class="headerlink" href="#6-download-precomputed-abs-gap-proof-ks-and-lrt-only" title="Permanent link">&para;</a></h2>
-<p><code>bash
-curl -OJ "http://&lt;HOST&gt;:&lt;PORT&gt;/abs-gap-proof"</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>curl<span class="w"> </span>-OJ<span class="w"> </span><span class="s2">"http://&lt;HOST&gt;:&lt;PORT&gt;/abs-gap-proof"</span>
+</code></pre></div>
 <p>Returns a single <code>proof_1.pf</code> file representing the abs-gap statistic generated during setup.</p>
 <hr />
 <h2 id="7-download-compiled-artifacts">7. Download compiled artifacts<a class="headerlink" href="#7-download-compiled-artifacts" title="Permanent link">&para;</a></h2>
 <p>These static artifacts are produced during setup and can be reused for many proof jobs.</p>
 <h3 id="compiled-circuits">Compiled circuits<a class="headerlink" href="#compiled-circuits" title="Permanent link">&para;</a></h3>
-<p><code>bash
-curl -X POST "http://&lt;HOST&gt;:&lt;PORT&gt;/fetch-cc" \
-  -H "Content-Type: application/json" \
-  -d '{"smt_list": ["s1", "s2"], "which": ["ltr", "mrp"]}' -OJ</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"http://&lt;HOST&gt;:&lt;PORT&gt;/fetch-cc"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"smt_list": ["s1", "s2"], "which": ["ltr", "mrp"]}'</span><span class="w"> </span>-OJ
+</code></pre></div>
 <h3 id="verification-keys">Verification keys<a class="headerlink" href="#verification-keys" title="Permanent link">&para;</a></h3>
-<p><code>bash
-curl -X POST "http://&lt;HOST&gt;:&lt;PORT&gt;/fetch-vk" \
-  -H "Content-Type: application/json" \
-  -d '{"smt_list": ["s1", "s2"], "which": ["ltr", "mrp"]}' -OJ</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"http://&lt;HOST&gt;:&lt;PORT&gt;/fetch-vk"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"smt_list": ["s1", "s2"], "which": ["ltr", "mrp"]}'</span><span class="w"> </span>-OJ
+</code></pre></div>
 <h3 id="settings">Settings<a class="headerlink" href="#settings" title="Permanent link">&para;</a></h3>
-<p><code>bash
-curl -X POST "http://&lt;HOST&gt;:&lt;PORT&gt;/fetch-settings" \
-  -H "Content-Type: application/json" \
-  -d '{"smt_list": ["s1", "s2"], "which": ["ltr", "mrp"]}' -OJ</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"http://&lt;HOST&gt;:&lt;PORT&gt;/fetch-settings"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"smt_list": ["s1", "s2"], "which": ["ltr", "mrp"]}'</span><span class="w"> </span>-OJ
+</code></pre></div>
 <p>For ACC and LRT, replace <code>["s1", "s2"]</code> with the relevant <code>smt_list</code> (e.g., <code>["full", "reduced"]</code> for LRT).</p>
 <hr />
 <h2 id="8-delete-a-job">8. Delete a job<a class="headerlink" href="#8-delete-a-job" title="Permanent link">&para;</a></h2>
-<p><code>bash
-curl -X DELETE "http://&lt;HOST&gt;:&lt;PORT&gt;/jobs/&lt;job-id&gt;"</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>DELETE<span class="w"> </span><span class="s2">"http://&lt;HOST&gt;:&lt;PORT&gt;/jobs/&lt;job-id&gt;"</span>
+</code></pre></div>
 <p>Marks the job as cancelled and removes its proof files from disk if the job was in <code>done</code> state.</p>
+<hr />
+<h2 id="9-check-if-a-hash-has-proofs">9. Check if a hash has proofs<a class="headerlink" href="#9-check-if-a-hash-has-proofs" title="Permanent link">&para;</a></h2>
+<p>Available on all three APIs (ACC, KS, LRT). Checks whether <code>input_&lt;hash&gt;.json</code> files already exist for a given <code>user_hash</code> in that API's <code>proof-results-*/ltr/</code> folders. It only reads the filesystem and never generates anything.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"http://&lt;HOST&gt;:&lt;PORT&gt;/check-hash/"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"user_hash": "&lt;RAW_HASH&gt;"}'</span>
+</code></pre></div>
+<h3 id="response-structure_1">Response structure<a class="headerlink" href="#response-structure_1" title="Permanent link">&para;</a></h3>
+<p>Each API reports one flag per SMT, plus <code>found_in_both</code> and <code>exists</code> (found in at least one):</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>Port</th>
+<th>Per-SMT keys</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACC</td>
+<td><code>5012</code></td>
+<td><code>found_in_log_acc</code>, <code>found_in_log_acc_length</code></td>
+</tr>
+<tr>
+<td>KS</td>
+<td><code>5013</code></td>
+<td><code>found_in_s1</code>, <code>found_in_s2</code></td>
+</tr>
+<tr>
+<td>LRT</td>
+<td><code>5014</code></td>
+<td><code>found_in_ll_full</code>, <code>found_in_ll_reduced</code></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="p">{</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">  </span><span class="nt">"test_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"logistic accuracy"</span><span class="p">,</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">  </span><span class="nt">"hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0d"</span><span class="p">,</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">  </span><span class="nt">"found_in_log_acc"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">  </span><span class="nt">"found_in_log_acc_length"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">  </span><span class="nt">"found_in_both"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="w">  </span><span class="nt">"exists"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="p">}</span>
+</code></pre></div>
+<p>If <code>user_hash</code> is missing, the API returns <code>400</code> with <code>{"error": true, "message": "user_hash is required"}</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Default <code>ID</code> only</p>
+<p>The check looks only in the prover ID folder <code>1</code> (<code>proofs/&lt;test&gt;/&lt;smt&gt;/1/proof-results-*/ltr/</code>), which is what the default <code>"ID": "1,1"</code> produces. Proofs generated with a different setup <code>ID</code> are reported as <code>exists: false</code>.</p>
+</div>
+<hr />
+<h2 id="10-input-files-api-port-5015">10. Input Files API (port 5015)<a class="headerlink" href="#10-input-files-api-port-5015" title="Permanent link">&para;</a></h2>
+<p>A standalone, read-only helper service (<code>api_input_files.py</code>) that collects the <code>input_&lt;hash&gt;.json</code> files produced by all three tests. It runs as its own container in the Docker stack and reads from the shared <code>proofs/</code> directory.</p>
+<p>It scans these SMT folders under <code>proofs/</code>:</p>
+<table>
+<thead>
+<tr>
+<th>App</th>
+<th>SMT folders</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACC</td>
+<td><code>logistic_accuracy/log_acc</code>, <code>logistic_accuracy/log_acc_length</code></td>
+</tr>
+<tr>
+<td>LRT</td>
+<td><code>logistic_lrt/ll_full</code>, <code>logistic_lrt/ll_reduced</code></td>
+</tr>
+<tr>
+<td>KS</td>
+<td><code>ks/simple_sum_bincount_s1</code>, <code>ks/simple_sum_bincount_s2</code></td>
+</tr>
+</tbody>
+</table>
+<p>As with <code>/check-hash/</code>, only the default prover ID folder <code>1</code> is scanned.</p>
+<h3 id="list-input-files">List input files<a class="headerlink" href="#list-input-files" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">"http://&lt;HOST&gt;:5015/input-files/"</span>
+</code></pre></div>
+<p><code>GET /input-files/list</code> is an alias. Response:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="p">{</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">  </span><span class="nt">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">  </span><span class="nt">"files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="w">      </span><span class="nt">"app"</span><span class="p">:</span><span class="w"> </span><span class="s2">"acc"</span><span class="p">,</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="w">      </span><span class="nt">"branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"log_acc"</span><span class="p">,</span>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="w">      </span><span class="nt">"proof_results"</span><span class="p">:</span><span class="w"> </span><span class="s2">"proof-results-20260625063000"</span><span class="p">,</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="w">      </span><span class="nt">"hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0d"</span><span class="p">,</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="w">      </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"logistic_accuracy/log_acc/1/proof-results-20260625063000/ltr/input_0d.json"</span>
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="download-all-input-files-zip">Download all input files (ZIP)<a class="headerlink" href="#download-all-input-files-zip" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>curl<span class="w"> </span>-OJ<span class="w"> </span><span class="s2">"http://&lt;HOST&gt;:5015/input-files/zip"</span>
+</code></pre></div>
+<p>Returns <code>all_input_files.zip</code>, with entries named <code>{app}/{branch}/{proof_results}/ltr/input_{hash}.json</code>. Returns <code>404</code> if no input files exist yet.</p>
+<h3 id="health-check">Health check<a class="headerlink" href="#health-check" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">"http://&lt;HOST&gt;:5015/health"</span>
+</code></pre></div>
+<p>Returns <code>{"status": "ok", "service": "input-files"}</code>.</p>
+<p>The port can be changed with the <code>API_input_files_port</code> environment variable (default <code>5015</code>).</p>
 
 
 

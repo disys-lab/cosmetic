@@ -1733,13 +1733,14 @@
 
 <h1 id="lrtstatistic-postaggregatorslrtstatisticpy"><code>LRTStatistic</code> — <code>postaggregators/LRTStatistic.py</code><a class="headerlink" href="#lrtstatistic-postaggregatorslrtstatisticpy" title="Permanent link">&para;</a></h1>
 <p>Computes and proves the <strong>Likelihood Ratio Test (LRT) statistic</strong>:</p>
-<p><code>LRT = -2 * (ll_reduced - ll_full) = 2 * (ll_full - ll_reduced)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>LRT = -2 * (ll_reduced - ll_full) = 2 * (ll_full - ll_reduced)
+</code></pre></div>
 <p>where <code>ll_full</code> and <code>ll_reduced</code> are the root values (total log-likelihoods) of the full-model and reduced-model SMTs respectively.</p>
 <h2 id="inner-class-lrt_test-torchnnmodule">Inner class: <code>LRT_Test</code> (torch.nn.Module)<a class="headerlink" href="#inner-class-lrt_test-torchnnmodule" title="Permanent link">&para;</a></h2>
 <p>A minimal PyTorch model that computes the LRT statistic from two root value tensors. Used solely to export a clean ONNX graph for EZKL.</p>
 <h3 id="forwardll_full-ll_reduced"><code>forward(ll_full, ll_reduced)</code><a class="headerlink" href="#forwardll_full-ll_reduced" title="Permanent link">&para;</a></h3>
-<p><code>python
-lrt_statistic = -2 * (ll_reduced[0][0] - ll_full[0][0])</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">lrt_statistic</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">ll_reduced</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">ll_full</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+</code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1765,8 +1766,8 @@ lrt_statistic = -2 * (ll_reduced[0][0] - ll_full[0][0])</code></p>
 <hr />
 <h2 id="lrtstatistic-class"><code>LRTStatistic</code> class<a class="headerlink" href="#lrtstatistic-class" title="Permanent link">&para;</a></h2>
 <h3 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h3>
-<p><code>python
-LRTStatistic(outdir_name, reduced_dim, full_dim, zkp_scale, setup=True, prove=True)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">LRTStatistic</span><span class="p">(</span><span class="n">outdir_name</span><span class="p">,</span> <span class="n">reduced_dim</span><span class="p">,</span> <span class="n">full_dim</span><span class="p">,</span> <span class="n">zkp_scale</span><span class="p">,</span> <span class="n">setup</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prove</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
 <table>
 <thead>
 <tr>

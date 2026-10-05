@@ -1565,11 +1565,12 @@
 
 <h1 id="affine-transformersaffinepy"><code>Affine</code> — <code>transformers/Affine.py</code><a class="headerlink" href="#affine-transformersaffinepy" title="Permanent link">&para;</a></h1>
 <p><strong>Affine (linear) transformer.</strong> Applies a matrix-vector multiplication followed by a bias addition, then appends the transform salt.</p>
-<p><code>TSD_i = slope @ SD_i + intercept
-SLT_i = Concat(TSD_i, TS_i)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>TSD_i = slope @ SD_i + intercept
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>SLT_i = Concat(TSD_i, TS_i)
+</code></pre></div>
 <h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
-<p><code>python
-Affine(size=0, length_transform_salt=0, slope=None, intercept=None)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">Affine</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">length_transform_salt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">slope</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">intercept</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
 <table>
 <thead>
 <tr>

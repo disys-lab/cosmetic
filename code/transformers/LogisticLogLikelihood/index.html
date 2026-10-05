@@ -1601,13 +1601,14 @@
 
 <h1 id="logloglikelihood-transformerslogisticloglikelihoodpy"><code>LogLogLikelihood</code> — <code>transformers/LogisticLogLikelihood.py</code><a class="headerlink" href="#logloglikelihood-transformerslogisticloglikelihoodpy" title="Permanent link">&para;</a></h1>
 <p><strong>Logistic log-likelihood transformer.</strong> Computes the per-record log-likelihood contribution of a logistic regression model using a polynomial approximation of the softplus function, compatible with EZKL's fixed-point arithmetic.</p>
-<p><code>eta = (mask * x) @ beta
-ll_i = y * eta - softplus(eta)
-SLT_i = Concat(ll_i, TS_i)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>eta = (mask * x) @ beta
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>ll_i = y * eta - softplus(eta)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>SLT_i = Concat(ll_i, TS_i)
+</code></pre></div>
 <p>When summed (via <code>Adder</code>), the SMT root gives the total log-likelihood of the dataset under the model — used for both the full and reduced models in the LRT.</p>
 <h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
-<p><code>python
-LogLogLikelihood(size=0, length_transform_salt=0, beta=None, mask=None)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">LogLogLikelihood</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">length_transform_salt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1673,7 +1674,8 @@ LogLogLikelihood(size=0, length_transform_salt=0, beta=None, mask=None)</code></
 </div>
 <h2 id="logistic_ll_piecewiseeta-y"><code>logistic_ll_piecewise(eta, y)</code><a class="headerlink" href="#logistic_ll_piecewiseeta-y" title="Permanent link">&para;</a></h2>
 <p>Computes the log-likelihood contribution for a single record.</p>
-<p><code>ll = y * eta - softplus(eta)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ll = y * eta - softplus(eta)
+</code></pre></div>
 <table>
 <thead>
 <tr>

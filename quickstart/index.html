@@ -1710,8 +1710,8 @@
 <hr />
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
 <p>Python 3.9+ is recommended. Install all Python dependencies:</p>
-<p><code>bash
-pip install -r requirements.txt</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</code></pre></div>
 <p>The most important dependency is <a href="https://github.com/zkonduit/ezkl">EZKL</a>, which handles zk-SNARK circuit compilation and proof generation. Refer to the EZKL documentation if you run into platform-specific installation issues.</p>
 <hr />
 <h2 id="understanding-driverpy">Understanding <code>driver.py</code><a class="headerlink" href="#understanding-driverpy" title="Permanent link">&para;</a></h2>
@@ -1726,18 +1726,19 @@ pip install -r requirements.txt</code></p>
 <hr />
 <h2 id="option-a-dry-run-fastest-no-zk-snarks">Option A — Dry run (fastest, no zk-SNARKs)<a class="headerlink" href="#option-a-dry-run-fastest-no-zk-snarks" title="Permanent link">&para;</a></h2>
 <p>This is the best starting point. No circuits are compiled; forward passes are computed directly.</p>
-<p><code>bash
-ZKP_MODE=0 python driver.py</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nv">ZKP_MODE</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>python<span class="w"> </span>driver.py
+</code></pre></div>
 <p>Expected output (abbreviated):</p>
-<p><code>Root Value: tensor([[ 9.2000, ...]])
-Root Hash: &lt;hex string&gt;
-===== INCLUSION TEST: Picking raw data value that exists =====
-...
-===== EXCLUSION TEST: Picking raw data value that does not exist =====
-...</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Root Value: tensor([[ 9.2000, ...]])
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Root Hash: &lt;hex string&gt;
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>===== INCLUSION TEST: Picking raw data value that exists =====
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>...
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>===== EXCLUSION TEST: Picking raw data value that does not exist =====
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>...
+</code></pre></div>
 <h3 id="choosing-a-transformer">Choosing a transformer<a class="headerlink" href="#choosing-a-transformer" title="Permanent link">&para;</a></h3>
-<p><code>bash
-ZKP_MODE=0 LTR_CHOICE=affine python driver.py</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">ZKP_MODE</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">LTR_CHOICE</span><span class="o">=</span>affine<span class="w"> </span>python<span class="w"> </span>driver.py
+</code></pre></div>
 <p>Available <code>LTR_CHOICE</code> values:</p>
 <table>
 <thead>
@@ -1768,28 +1769,29 @@ ZKP_MODE=0 LTR_CHOICE=affine python driver.py</code></p>
 <hr />
 <h2 id="option-b-full-zk-snark-run-first-time">Option B — Full zk-SNARK run (first time)<a class="headerlink" href="#option-b-full-zk-snark-run-first-time" title="Permanent link">&para;</a></h2>
 <p>The first time you run with ZKP mode enabled you must also run setup, which compiles circuits and generates proving/verification keys. This can take several minutes.</p>
-<p><code>bash
-ZKP_MODE=1 SETUP_MRP=1 SETUP_LTR=1 GEN_FULL_PROOF=1 python driver.py</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nv">ZKP_MODE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">SETUP_MRP</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">SETUP_LTR</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">GEN_FULL_PROOF</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>python<span class="w"> </span>driver.py
+</code></pre></div>
 <p>On completion a UUID is printed to stdout and artifacts are written to:</p>
-<p><code>proofs/simple_sum_&lt;ltr_choice&gt;/&lt;uuid&gt;/</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>proofs/simple_sum_&lt;ltr_choice&gt;/&lt;uuid&gt;/
+</code></pre></div>
 <blockquote>
 <p><strong>Note</strong>: <code>GEN_FULL_PROOF=1</code> generates a proof at every hop in the Merkle path. Setting it to <code>0</code> skips levels where siblings are default nodes, which is faster but produces fewer proof files.</p>
 </blockquote>
 <hr />
 <h2 id="option-c-reusing-existing-circuits">Option C — Reusing existing circuits<a class="headerlink" href="#option-c-reusing-existing-circuits" title="Permanent link">&para;</a></h2>
 <p>Once setup has been run once, you can reuse the compiled circuits by passing the generated <code>ID</code>:</p>
-<p><code>bash
-ID=&lt;your-uuid&gt; ZKP_MODE=1 GEN_FULL_PROOF=0 python driver.py</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nv">ID</span><span class="o">=</span>&lt;your-uuid&gt;<span class="w"> </span><span class="nv">ZKP_MODE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">GEN_FULL_PROOF</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>python<span class="w"> </span>driver.py
+</code></pre></div>
 <p>This skips the circuit compilation step and goes straight to proof generation.</p>
 <hr />
 <h2 id="debugging-dimension-mismatch-errors">Debugging dimension mismatch errors<a class="headerlink" href="#debugging-dimension-mismatch-errors" title="Permanent link">&para;</a></h2>
 <p>If EZKL reports a shape error, inspect the compiled ONNX network:</p>
-<p><code>bash
-python -c '
-import onnx
-m = onnx.load("proofs/&lt;prover_name&gt;/&lt;uuid&gt;/ltr_keys/network.onnx")
-print(onnx.helper.printable_graph(m.graph))
-'</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>python<span class="w"> </span>-c<span class="w"> </span><span class="s1">'</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="s1">import onnx</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="s1">m = onnx.load("proofs/&lt;prover_name&gt;/&lt;uuid&gt;/ltr_keys/network.onnx")</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="s1">print(onnx.helper.printable_graph(m.graph))</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="s1">'</span>
+</code></pre></div>
 <p>Common causes:</p>
 <ul>
 <li>Mismatch between the <code>transform_salt_shape</code> set in the driver and the actual salt dimensions.</li>

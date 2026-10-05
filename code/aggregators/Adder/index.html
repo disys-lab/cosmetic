@@ -1722,15 +1722,16 @@
 <h1 id="adder-aggregatorsadderpy"><code>Adder</code> — <code>aggregators/Adder.py</code><a class="headerlink" href="#adder-aggregatorsadderpy" title="Permanent link">&para;</a></h1>
 <p>Global aggregation function (<code>G</code>) that combines two sibling node values at each level of the Sparse Merkle Tree. <code>Adder</code> is a <code>torch.nn.Module</code> subclass so it can be compiled into an EZKL zk-SNARK circuit.</p>
 <p>The only built-in aggregator. Computes <strong>element-wise addition</strong> of two sibling values, with an optional nonce term controlled by a selector bit.</p>
-<p><code>parent = a + b + (sel * flipper_mask) * nonce</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>parent = a + b + (sel * flipper_mask) * nonce
+</code></pre></div>
 <p>In practice, <code>flipper_mask</code> is always <code>0.0</code>, making the nonce term inactive. The selector bit <code>sel</code> and nonce are retained in the circuit interface to enable future zero-knowledge proofs of the path walk (the selector bit encodes the left/right relationship between a leaf and its sibling at each tree level).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Addition is commutative and associative, which is required for the recursive Merkle aggregation strategy used by <code>SparseMerkleTree.build_tree</code>. Any future aggregator must satisfy the same property.</p>
 </div>
 <h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
-<p><code>python
-Adder(size=0, length_with_nonce=1)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">Adder</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">length_with_nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
 <table>
 <thead>
 <tr>
@@ -2027,8 +2028,9 @@ Adder(size=0, length_with_nonce=1)</code></p>
 <hr />
 <h3 id="forwarda-b-sel-nonce"><code>forward(a, b, sel, nonce)</code><a class="headerlink" href="#forwarda-b-sel-nonce" title="Permanent link">&para;</a></h3>
 <p>Pure PyTorch forward pass for the aggregation function.</p>
-<p><code>nonce_multiplier = sel * flipper_mask   # always 0
-parent = a + b + nonce_multiplier * nonce</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>nonce_multiplier = sel * flipper_mask   # always 0
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>parent = a + b + nonce_multiplier * nonce
+</code></pre></div>
 <p>Because <code>flipper_mask = tensor([0.0])</code>, this always reduces to <code>a + b</code>.</p>
 <table>
 <thead>

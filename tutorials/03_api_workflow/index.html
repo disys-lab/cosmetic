@@ -712,6 +712,78 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#step-5-submit-a-proof-generation-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5 — Submit a proof generation job
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-poll-until-proof-generation-is-done" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 6 — Poll until proof generation is done
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-7-verify-the-proofs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 7 — Verify the proofs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-8-download-the-proof-archive" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 8 — Download the proof archive
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-9-optional-download-the-abs-gap-proof" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 9 (optional) — Download the abs-gap proof
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-10-optional-download-verification-artifacts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 10 (optional) — Download verification artifacts
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-11-clean-up-the-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 11 — Clean up the job
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adapting-this-tutorial-for-acc-or-lrt" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adapting this tutorial for ACC or LRT
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1576,6 +1648,78 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#step-5-submit-a-proof-generation-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5 — Submit a proof generation job
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-poll-until-proof-generation-is-done" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 6 — Poll until proof generation is done
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-7-verify-the-proofs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 7 — Verify the proofs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-8-download-the-proof-archive" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 8 — Download the proof archive
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-9-optional-download-the-abs-gap-proof" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 9 (optional) — Download the abs-gap proof
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-10-optional-download-verification-artifacts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 10 (optional) — Download verification artifacts
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-11-clean-up-the-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 11 — Clean up the job
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adapting-this-tutorial-for-acc-or-lrt" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adapting this tutorial for ACC or LRT
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1602,119 +1746,120 @@
 <p>This tutorial targets the <strong>KS API</strong> on port <code>5013</code>. The same steps apply to the ACC (<code>5012</code>) and LRT (<code>5014</code>) APIs — just change the port and any API-specific fields (see <a href="../../api_reference/">api_reference.md</a>).</p>
 <hr />
 <h2 id="variables-used-in-this-tutorial">Variables used in this tutorial<a class="headerlink" href="#variables-used-in-this-tutorial" title="Permanent link">&para;</a></h2>
-<p><code>bash
-HOST="localhost"
-PORT="5013"
-BASE="http://${HOST}:${PORT}"</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">HOST</span><span class="o">=</span><span class="s2">"localhost"</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nv">PORT</span><span class="o">=</span><span class="s2">"5013"</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nv">BASE</span><span class="o">=</span><span class="s2">"http://</span><span class="si">${</span><span class="nv">HOST</span><span class="si">}</span><span class="s2">:</span><span class="si">${</span><span class="nv">PORT</span><span class="si">}</span><span class="s2">"</span>
+</code></pre></div>
 <hr />
 <h2 id="step-1-check-the-server-is-up">Step 1 — Check the server is up<a class="headerlink" href="#step-1-check-the-server-is-up" title="Permanent link">&para;</a></h2>
-<p><code>bash
-curl -s "${BASE}/"</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">BASE</span><span class="si">}</span><span class="s2">/"</span>
+</code></pre></div>
 <p>You should get a JSON response or a short status message confirming the API is running.</p>
 <hr />
 <h2 id="step-2-run-setup">Step 2 — Run setup<a class="headerlink" href="#step-2-run-setup" title="Permanent link">&para;</a></h2>
 <p>Setup builds the Sparse Merkle Trees and compiles EZKL circuits. It only needs to run once per configuration.</p>
-<p>```bash
-SETUP_JOB=$(curl -s -X POST "${BASE}/ks/setup" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "ZKP_MODE": 1,
-    "GEN_FULL_PROOF": 0,
-    "SETUP_MRP": 1,
-    "SETUP_LTR": 1,
-    "ZKP_SCALER": 10,
-    "TREE_HEIGHT": 8
-  }')</p>
-<p>echo "${SETUP_JOB}" | jq .</p>
-<p>SETUP_JOB_ID=$(echo "${SETUP_JOB}" | jq -r '.job_id')
-echo "Setup job ID: ${SETUP_JOB_ID}"
-```</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">SETUP_JOB</span><span class="o">=</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">BASE</span><span class="si">}</span><span class="s2">/ks/setup"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="s1">    "ZKP_MODE": 1,</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="s1">    "GEN_FULL_PROOF": 0,</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="s1">    "SETUP_MRP": 1,</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="s1">    "SETUP_LTR": 1,</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="s1">    "ZKP_SCALER": 10,</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="s1">    "TREE_HEIGHT": 8</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="s1">  }'</span><span class="k">)</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">SETUP_JOB</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="nv">SETUP_JOB_ID</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">SETUP_JOB</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">'.job_id'</span><span class="k">)</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Setup job ID: </span><span class="si">${</span><span class="nv">SETUP_JOB_ID</span><span class="si">}</span><span class="s2">"</span>
+</code></pre></div>
 <hr />
 <h2 id="step-3-poll-until-setup-is-done">Step 3 — Poll until setup is done<a class="headerlink" href="#step-3-poll-until-setup-is-done" title="Permanent link">&para;</a></h2>
-<p><code>bash
-while true; do
-  STATUS=$(curl -s "${BASE}/jobs/${SETUP_JOB_ID}" | jq -r '.status')
-  echo "$(date '+%H:%M:%S') setup status: ${STATUS}"
-  if [[ "${STATUS}" == "done" || "${STATUS}" == "error" ]]; then break; fi
-  sleep 10
-done</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">while</span><span class="w"> </span>true<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nv">STATUS</span><span class="o">=</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">BASE</span><span class="si">}</span><span class="s2">/jobs/</span><span class="si">${</span><span class="nv">SETUP_JOB_ID</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">'.status'</span><span class="k">)</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span>date<span class="w"> </span><span class="s1">'+%H:%M:%S'</span><span class="k">)</span><span class="s2"> setup status: </span><span class="si">${</span><span class="nv">STATUS</span><span class="si">}</span><span class="s2">"</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">STATUS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"done"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">STATUS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"error"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="k">break</span><span class="p">;</span><span class="w"> </span><span class="k">fi</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span>sleep<span class="w"> </span><span class="m">10</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="k">done</span>
+</code></pre></div>
 <p>When <code>status</code> is <code>done</code>, setup is complete. If it is <code>error</code>, check the <code>error</code> field in the response.</p>
 <hr />
 <h2 id="step-4-obtain-a-user_hash">Step 4 — Obtain a <code>user_hash</code><a class="headerlink" href="#step-4-obtain-a-user_hash" title="Permanent link">&para;</a></h2>
 <p>The <code>user_hash</code> is the raw hash of a user's salted leaf value. In a real deployment this comes from your data pipeline. For testing, check the setup job result for example hashes, or use one logged by <code>driver.py</code> during a dry run.</p>
-<p>```bash</p>
-<h1 id="example-substitute-with-an-actual-hash-from-your-data">Example — substitute with an actual hash from your data<a class="headerlink" href="#example-substitute-with-an-actual-hash-from-your-data" title="Permanent link">&para;</a></h1>
-<p>USER_HASH="0xabc123..."
-```</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Example — substitute with an actual hash from your data</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nv">USER_HASH</span><span class="o">=</span><span class="s2">"0xabc123..."</span>
+</code></pre></div>
 <hr />
 <h2 id="step-5-submit-a-proof-generation-job">Step 5 — Submit a proof generation job<a class="headerlink" href="#step-5-submit-a-proof-generation-job" title="Permanent link">&para;</a></h2>
-<p>```bash
-PROVE_RESP=$(curl -s -X POST "${BASE}/prove-hash/" \
-  -H "Content-Type: application/json" \
-  -d "{
-    \"user_hash\": \"${USER_HASH}\"
-  }")</p>
-<p>echo "${PROVE_RESP}" | jq .
-PROOF_JOB_ID=$(echo "${PROVE_RESP}" | jq -r '.job_id')
-echo "Proof job ID: ${PROOF_JOB_ID}"
-```</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">PROVE_RESP</span><span class="o">=</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">BASE</span><span class="si">}</span><span class="s2">/prove-hash/"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">"{</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="s2">    \"user_hash\": \"</span><span class="si">${</span><span class="nv">USER_HASH</span><span class="si">}</span><span class="s2">\"</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="s2">  }"</span><span class="k">)</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PROVE_RESP</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="nv">PROOF_JOB_ID</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PROVE_RESP</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">'.job_id'</span><span class="k">)</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Proof job ID: </span><span class="si">${</span><span class="nv">PROOF_JOB_ID</span><span class="si">}</span><span class="s2">"</span>
+</code></pre></div>
 <blockquote>
 <p>The KS API does not require <code>smt_list</code> — both <code>s1</code> and <code>s2</code> SMTs are probed automatically.
 To pass a specific nonce (for reproducibility): add <code>"nonce": [[0.0, 0.0, ..., 0.0]]</code> (17 values for KS).</p>
 </blockquote>
 <hr />
 <h2 id="step-6-poll-until-proof-generation-is-done">Step 6 — Poll until proof generation is done<a class="headerlink" href="#step-6-poll-until-proof-generation-is-done" title="Permanent link">&para;</a></h2>
-<p><code>bash
-while true; do
-  STATUS=$(curl -s "${BASE}/jobs/${PROOF_JOB_ID}" | jq -r '.status')
-  echo "$(date '+%H:%M:%S') proof status: ${STATUS}"
-  if [[ "${STATUS}" == "done" || "${STATUS}" == "error" ]]; then break; fi
-  sleep 10
-done</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">while</span><span class="w"> </span>true<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nv">STATUS</span><span class="o">=</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">BASE</span><span class="si">}</span><span class="s2">/jobs/</span><span class="si">${</span><span class="nv">PROOF_JOB_ID</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">'.status'</span><span class="k">)</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span>date<span class="w"> </span><span class="s1">'+%H:%M:%S'</span><span class="k">)</span><span class="s2"> proof status: </span><span class="si">${</span><span class="nv">STATUS</span><span class="si">}</span><span class="s2">"</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">STATUS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"done"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">STATUS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"error"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="k">break</span><span class="p">;</span><span class="w"> </span><span class="k">fi</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span>sleep<span class="w"> </span><span class="m">10</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="k">done</span>
+</code></pre></div>
 <hr />
 <h2 id="step-7-verify-the-proofs">Step 7 — Verify the proofs<a class="headerlink" href="#step-7-verify-the-proofs" title="Permanent link">&para;</a></h2>
-<p><code>bash
-curl -s -X POST "${BASE}/verify-job/${PROOF_JOB_ID}" | jq .</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">BASE</span><span class="si">}</span><span class="s2">/verify-job/</span><span class="si">${</span><span class="nv">PROOF_JOB_ID</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.
+</code></pre></div>
 <p>Expected response:</p>
-<p><code>json
-{
-  "ok": true,
-  "user_hash": "0xabc123...",
-  "results": [
-    {"proof_file": "s1/ltr/test_0xabc123....pf", "verified": true},
-    {"proof_file": "s1/mrp/test_0xabc123..._0.pf", "verified": true},
-    ...
-  ]
-}</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">"ok"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nt">"user_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xabc123..."</span><span class="p">,</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nt">"results"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="p">{</span><span class="nt">"proof_file"</span><span class="p">:</span><span class="w"> </span><span class="s2">"s1/ltr/test_0xabc123....pf"</span><span class="p">,</span><span class="w"> </span><span class="nt">"verified"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">},</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="p">{</span><span class="nt">"proof_file"</span><span class="p">:</span><span class="w"> </span><span class="s2">"s1/mrp/test_0xabc123..._0.pf"</span><span class="p">,</span><span class="w"> </span><span class="nt">"verified"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">},</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="err">...</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="p">}</span>
+</code></pre></div>
 <hr />
 <h2 id="step-8-download-the-proof-archive">Step 8 — Download the proof archive<a class="headerlink" href="#step-8-download-the-proof-archive" title="Permanent link">&para;</a></h2>
-<p><code>bash
-curl -OJ "${BASE}/jobs/${PROOF_JOB_ID}/download"</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>curl<span class="w"> </span>-OJ<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">BASE</span><span class="si">}</span><span class="s2">/jobs/</span><span class="si">${</span><span class="nv">PROOF_JOB_ID</span><span class="si">}</span><span class="s2">/download"</span>
+</code></pre></div>
 <p>This downloads a <code>.zip</code> file containing all <code>.pf</code> proof files for the job, organized by SMT and proof type:</p>
-<p><code>s1/ltr/test_&lt;hash&gt;.pf
-s1/mrp/test_&lt;hash&gt;_&lt;level&gt;.pf
-s2/ltr/test_&lt;hash&gt;.pf
-s2/mrp/test_&lt;hash&gt;_&lt;level&gt;.pf</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>s1/ltr/test_&lt;hash&gt;.pf
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>s1/mrp/test_&lt;hash&gt;_&lt;level&gt;.pf
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>s2/ltr/test_&lt;hash&gt;.pf
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>s2/mrp/test_&lt;hash&gt;_&lt;level&gt;.pf
+</code></pre></div>
 <hr />
 <h2 id="step-9-optional-download-the-abs-gap-proof">Step 9 (optional) — Download the abs-gap proof<a class="headerlink" href="#step-9-optional-download-the-abs-gap-proof" title="Permanent link">&para;</a></h2>
 <p>The KS test also produces a precomputed abs-gap proof during setup:</p>
-<p><code>bash
-curl -OJ "${BASE}/abs-gap-proof"</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>curl<span class="w"> </span>-OJ<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">BASE</span><span class="si">}</span><span class="s2">/abs-gap-proof"</span>
+</code></pre></div>
 <hr />
 <h2 id="step-10-optional-download-verification-artifacts">Step 10 (optional) — Download verification artifacts<a class="headerlink" href="#step-10-optional-download-verification-artifacts" title="Permanent link">&para;</a></h2>
 <p>If you need to verify proofs offline, download the verification keys and settings:</p>
-<p>```bash
-curl -X POST "${BASE}/fetch-vk" \
-  -H "Content-Type: application/json" \
-  -d '{"smt_list": ["s1", "s2"], "which": ["ltr", "mrp"]}' -OJ</p>
-<p>curl -X POST "${BASE}/fetch-settings" \
-  -H "Content-Type: application/json" \
-  -d '{"smt_list": ["s1", "s2"], "which": ["ltr", "mrp"]}' -OJ
-```</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">BASE</span><span class="si">}</span><span class="s2">/fetch-vk"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"smt_list": ["s1", "s2"], "which": ["ltr", "mrp"]}'</span><span class="w"> </span>-OJ
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">BASE</span><span class="si">}</span><span class="s2">/fetch-settings"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"smt_list": ["s1", "s2"], "which": ["ltr", "mrp"]}'</span><span class="w"> </span>-OJ
+</code></pre></div>
 <hr />
 <h2 id="step-11-clean-up-the-job">Step 11 — Clean up the job<a class="headerlink" href="#step-11-clean-up-the-job" title="Permanent link">&para;</a></h2>
-<p><code>bash
-curl -X DELETE "${BASE}/jobs/${PROOF_JOB_ID}"</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>DELETE<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">BASE</span><span class="si">}</span><span class="s2">/jobs/</span><span class="si">${</span><span class="nv">PROOF_JOB_ID</span><span class="si">}</span><span class="s2">"</span>
+</code></pre></div>
 <hr />
 <h2 id="adapting-this-tutorial-for-acc-or-lrt">Adapting this tutorial for ACC or LRT<a class="headerlink" href="#adapting-this-tutorial-for-acc-or-lrt" title="Permanent link">&para;</a></h2>
 <table>

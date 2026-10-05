@@ -1565,13 +1565,14 @@
 
 <h1 id="length-transformerslengthpy"><code>Length</code> — <code>transformers/Length.py</code><a class="headerlink" href="#length-transformerslengthpy" title="Permanent link">&para;</a></h1>
 <p><strong>Non-zero indicator transformer.</strong> Converts each element to a binary indicator (1 if non-zero, 0 if zero), takes the row-wise max, and appends the transform salt.</p>
-<p><code>mask_i = (SD_i != 0) ? 1 : 0
-eta = max(mask_i, dim=1)
-SLT_i = Concat(eta, TS_i)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mask_i = (SD_i != 0) ? 1 : 0
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>eta = max(mask_i, dim=1)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>SLT_i = Concat(eta, TS_i)
+</code></pre></div>
 <p>This effectively outputs <code>1.0</code> if <strong>any</strong> element of the record is non-zero and <code>0.0</code> if the record is all zeros (i.e., a default record).</p>
 <h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
-<p><code>python
-Length(size=0, length_transform_salt=0)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">Length</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">length_transform_salt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
 <table>
 <thead>
 <tr>

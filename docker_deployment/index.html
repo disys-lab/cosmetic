@@ -624,6 +624,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#input-files-container-cosmeticprover-input-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Input files container (COSMeTICprover-input-files)
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -651,6 +660,39 @@
   <a href="#building-images-locally-makefile" class="md-nav__link">
     <span class="md-ellipsis">
       Building images locally (Makefile)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Building images locally (Makefile)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#image-tags-produced-by-make-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      Image tags produced by make build
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checking-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Checking logs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#networking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Networking
     </span>
   </a>
   
@@ -1643,6 +1685,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#input-files-container-cosmeticprover-input-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Input files container (COSMeTICprover-input-files)
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1670,6 +1721,39 @@
   <a href="#building-images-locally-makefile" class="md-nav__link">
     <span class="md-ellipsis">
       Building images locally (Makefile)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Building images locally (Makefile)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#image-tags-produced-by-make-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      Image tags produced by make build
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checking-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Checking logs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#networking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Networking
     </span>
   </a>
   
@@ -1716,6 +1800,11 @@
 <td><code>anon2026dpeval/cosmeticstatslogger:latest</code></td>
 <td>Collects CPU/memory and Docker container stats during proof generation</td>
 </tr>
+<tr>
+<td><code>COSMeTICprover-input-files</code></td>
+<td><code>anon2026dpeval/cosmeticprover:latest</code></td>
+<td>Runs the read-only Input Files API (<code>api_input_files.py</code>) on port <code>5015</code> (see <a href="../api_reference/#10-input-files-api-port-5015">API Reference §10</a>)</td>
+</tr>
 </tbody>
 </table>
 <p>Both containers share a Docker named volume <code>results_data</code> so proof outputs and stats logs land in the same place.</p>
@@ -1724,26 +1813,26 @@
 <ul>
 <li>Docker Engine installed and running</li>
 <li>Docker Compose (<code>docker compose ...</code> — V2 syntax)</li>
-<li>Ports <code>5012</code>, <code>5013</code>, <code>5014</code>, and <code>5003</code> available on the host</li>
+<li>Ports <code>5012</code>, <code>5013</code>, <code>5014</code>, <code>5015</code>, and <code>5003</code> available on the host</li>
 </ul>
 <hr />
 <h2 id="pulling-images">Pulling images<a class="headerlink" href="#pulling-images" title="Permanent link">&para;</a></h2>
 <p>Pre-built images are on Docker Hub. You do not need to build locally unless you have modified the source code.</p>
 <p>Docker Hub enforces pull-rate limits for unauthenticated users. Log in first:</p>
-<p><code>bash
-docker login</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>docker<span class="w"> </span>login
+</code></pre></div>
 <p>Then pull:</p>
-<p><code>bash
-docker pull anon2026dpeval/cosmeticprover:latest
-docker pull anon2026dpeval/cosmeticstatslogger:latest</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span>pull<span class="w"> </span>anon2026dpeval/cosmeticprover:latest
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>docker<span class="w"> </span>pull<span class="w"> </span>anon2026dpeval/cosmeticstatslogger:latest
+</code></pre></div>
 <hr />
 <h2 id="starting-the-stack">Starting the stack<a class="headerlink" href="#starting-the-stack" title="Permanent link">&para;</a></h2>
 <p>From the directory containing <code>docker-compose.yml</code>:</p>
-<p><code>bash
-docker compose up -d</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+</code></pre></div>
 <p>Verify both containers are running:</p>
-<p><code>bash
-docker ps</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>docker<span class="w"> </span>ps
+</code></pre></div>
 <hr />
 <h2 id="environment-variables">Environment variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h2>
 <h3 id="prover-container-zkpprover">Prover container (<code>zkpprover</code>)<a class="headerlink" href="#prover-container-zkpprover" title="Permanent link">&para;</a></h3>
@@ -1805,6 +1894,23 @@ docker ps</code></p>
 </tr>
 </tbody>
 </table>
+<h3 id="input-files-container-cosmeticprover-input-files">Input files container (<code>COSMeTICprover-input-files</code>)<a class="headerlink" href="#input-files-container-cosmeticprover-input-files" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default in compose</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>API_input_files_port</code></td>
+<td><code>5015</code></td>
+<td>Port the Input Files Flask app listens on</td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h2 id="where-results-are-stored">Where results are stored<a class="headerlink" href="#where-results-are-stored" title="Permanent link">&para;</a></h2>
 <table>
@@ -1826,37 +1932,56 @@ docker ps</code></p>
 <td><code>/prover-stats-logger/results</code></td>
 <td><code>results_data</code> volume</td>
 </tr>
+<tr>
+<td>Prover (proofs)</td>
+<td><code>/app/proofs</code></td>
+<td><code>./proofs</code> on the host (bind mount)</td>
+</tr>
+<tr>
+<td>Input files</td>
+<td><code>/app/proofs</code></td>
+<td><code>./proofs</code> on the host (same folder, read-only use)</td>
+</tr>
+<tr>
+<td>Prover (input datasets)</td>
+<td><code>/app/data</code></td>
+<td><code>./data</code> on the host (bind mount)</td>
+</tr>
 </tbody>
 </table>
+<p>The prover image does not include the <code>data/</code> datasets, so <code>docker-compose.yml</code> bind-mounts the repository's <code>./data</code> folder to <code>/app/data</code>. Without it, setup fails with <code>No such file or directory: './data/...pkl'</code>.</p>
+<p>Proof artifacts (keys, compiled circuits, <code>proof-results-*</code> folders) are written to <code>/app/proofs</code>, which <code>docker-compose.yml</code> bind-mounts to <code>./proofs</code> next to the compose file. They are therefore visible directly on the host and are kept after <code>docker compose down -v</code>.</p>
+<p>The compose file also bind-mounts <code>api_acc_test.py</code>, <code>api_ks_test.py</code>, <code>api_lrt_test.py</code>, and <code>api_input_files.py</code> from the checkout over the copies in the image, so edits to those files take effect after <code>docker compose restart</code> without rebuilding. Changes to other code (e.g. <code>modules/</code>, <code>merkletree/</code>) still require rebuilding the image.</p>
 <p>To access results from the host, either:</p>
 <ul>
 <li><code>docker cp zkpprover:/app/results ./local-results</code></li>
 <li>Or replace the volume with a bind mount in <code>docker-compose.yml</code>:</li>
 </ul>
-<p><code>yaml
-volumes:
-  - ./results:/app/results</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">volumes</span><span class="p">:</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./results:/app/results</span>
+</code></pre></div>
 <hr />
 <h2 id="stopping-the-stack">Stopping the stack<a class="headerlink" href="#stopping-the-stack" title="Permanent link">&para;</a></h2>
-<p><code>bash
-docker compose down</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>down
+</code></pre></div>
 <p>To also remove the shared volume (permanently deletes saved proofs and stats):</p>
-<p><code>bash
-docker compose down -v</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>down<span class="w"> </span>-v
+</code></pre></div>
 <hr />
 <h2 id="building-images-locally-makefile">Building images locally (Makefile)<a class="headerlink" href="#building-images-locally-makefile" title="Permanent link">&para;</a></h2>
 <p>If you have modified the source code, rebuild the images with:</p>
-<p>```bash</p>
-<h1 id="build-both-images">Build both images<a class="headerlink" href="#build-both-images" title="Permanent link">&para;</a></h1>
-<p>make build</p>
-<h1 id="build-only-the-prover-image">Build only the prover image<a class="headerlink" href="#build-only-the-prover-image" title="Permanent link">&para;</a></h1>
-<p>make build-prover</p>
-<h1 id="build-only-the-stats-logger-image">Build only the stats logger image<a class="headerlink" href="#build-only-the-stats-logger-image" title="Permanent link">&para;</a></h1>
-<p>make build-statslogger
-```</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Build both images</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>make<span class="w"> </span>build
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Build only the prover image</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>make<span class="w"> </span>build-prover
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># Build only the stats logger image</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>make<span class="w"> </span>build-statslogger
+</code></pre></div>
 <p>Then bring the stack back up:</p>
-<p><code>bash
-docker compose up -d</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+</code></pre></div>
 <h3 id="image-tags-produced-by-make-build">Image tags produced by <code>make build</code><a class="headerlink" href="#image-tags-produced-by-make-build" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1878,16 +2003,16 @@ docker compose up -d</code></p>
 </table>
 <hr />
 <h2 id="checking-logs">Checking logs<a class="headerlink" href="#checking-logs" title="Permanent link">&para;</a></h2>
-<p>```bash</p>
-<h1 id="prover-logs">Prover logs<a class="headerlink" href="#prover-logs" title="Permanent link">&para;</a></h1>
-<p>docker logs zkpprover -f</p>
-<h1 id="stats-logger-logs">Stats logger logs<a class="headerlink" href="#stats-logger-logs" title="Permanent link">&para;</a></h1>
-<p>docker logs prover-stats-logger -f
-```</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Prover logs</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>docker<span class="w"> </span>logs<span class="w"> </span>zkpprover<span class="w"> </span>-f
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Stats logger logs</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>docker<span class="w"> </span>logs<span class="w"> </span>prover-stats-logger<span class="w"> </span>-f
+</code></pre></div>
 <hr />
 <h2 id="networking">Networking<a class="headerlink" href="#networking" title="Permanent link">&para;</a></h2>
 <p>Both containers are on the same Docker Compose network (<code>default</code>). The prover resolves the stats logger by the container service name <code>prover-stats-logger</code> (as set in <code>STATS_LOGGER_URL</code>). No external network exposure is needed for inter-container communication.</p>
-<p>The prover's three API ports (<code>5012</code>, <code>5013</code>, <code>5014</code>) and the stats logger port (<code>5003</code>) are published to the host, making them accessible from outside the containers.</p>
+<p>The prover's three API ports (<code>5012</code>, <code>5013</code>, <code>5014</code>), the input files port (<code>5015</code>), and the stats logger port (<code>5003</code>) are published to the host, making them accessible from outside the containers.</p>
 
 
 

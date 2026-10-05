@@ -1565,10 +1565,11 @@
 
 <h1 id="flowthrough-transformersflowthroughpy"><code>FlowThrough</code> — <code>transformers/FlowThrough.py</code><a class="headerlink" href="#flowthrough-transformersflowthroughpy" title="Permanent link">&para;</a></h1>
 <p><strong>Identity transformer.</strong> Passes the salted raw value through unchanged and appends the transform salt.</p>
-<p><code>SLT_i = Concat(SD_i, TS_i)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>SLT_i = Concat(SD_i, TS_i)
+</code></pre></div>
 <h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
-<p><code>python
-FlowThrough(size=0, length_transform_salt=0, atol=1e-3, rtol=1e-12)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">FlowThrough</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">length_transform_salt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">)</span>
+</code></pre></div>
 <table>
 <thead>
 <tr>

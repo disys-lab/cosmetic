@@ -2045,7 +2045,8 @@
 <hr />
 <h3 id="cpu_percent_from_statsstats"><code>cpu_percent_from_stats(stats)</code><a class="headerlink" href="#cpu_percent_from_statsstats" title="Permanent link">&para;</a></h3>
 <p>Computes CPU usage percentage from a raw Docker stats dict using Docker's standard formula:</p>
-<p><code>cpu_pct = (cpu_delta / sys_delta) * online_cpus * 100</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>cpu_pct = (cpu_delta / sys_delta) * online_cpus * 100
+</code></pre></div>
 <table>
 <thead>
 <tr>
@@ -2265,20 +2266,20 @@
 </tbody>
 </table>
 <p><strong>Response (200):</strong></p>
-<p><code>json
-{"status": "success", "message": "System metrics snapshot created."}</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w"> </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"System metrics snapshot created."</span><span class="p">}</span>
+</code></pre></div>
 <p><strong>Response (500):</strong></p>
-<p><code>json
-{"status": "error", "message": "&lt;exception message&gt;"}</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="p">,</span><span class="w"> </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;exception message&gt;"</span><span class="p">}</span>
+</code></pre></div>
 <p><strong>Side effects:</strong> Calls <code>summarize_metrics(container_name, outdir="/prover-stats-logger/results/")</code>, which saves a CSV + PNG to a timestamped folder and resets the running CSV.</p>
 <hr />
 <h2 id="entry-point-__main__">Entry point (<code>__main__</code>)<a class="headerlink" href="#entry-point-__main__" title="Permanent link">&para;</a></h2>
-<p><code>python
-if __name__ == '__main__':
-    PROVER_PORT = os.getenv("PROVER_STATS_LOGGER_PORT", 5003)
-    threading.Thread(target=log_metrics, daemon=True).start()
-    atexit.register(summarize_metrics)
-    app.run(host='0.0.0.0', port=PROVER_PORT)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="n">PROVER_PORT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"PROVER_STATS_LOGGER_PORT"</span><span class="p">,</span> <span class="mi">5003</span><span class="p">)</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">log_metrics</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">atexit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">summarize_metrics</span><span class="p">)</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">'0.0.0.0'</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">PROVER_PORT</span><span class="p">)</span>
+</code></pre></div>
 <p>On startup:</p>
 <ol>
 <li>Launches <code>log_metrics()</code> as a daemon background thread.</li>

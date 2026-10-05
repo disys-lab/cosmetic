@@ -2064,22 +2064,22 @@
 <h1 id="merkleprover-merkletreemerkleproverpy"><code>MerkleProver</code> — <code>merkletree/MerkleProver.py</code><a class="headerlink" href="#merkleprover-merkletreemerkleproverpy" title="Permanent link">&para;</a></h1>
 <p>The central orchestrator. Wraps a <code>SparseMerkleTree</code> with EZKL circuit setup and proof generation. Manages file paths for all artifacts, coordinates transformer and aggregator, and exposes the public API for building trees, testing inclusion/exclusion, and generating proofs.</p>
 <h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
-<p><code>python
-MerkleProver(
-    prover_name="default_mrp",
-    aggregator=None,
-    transformer=None,
-    zkp_scale=10,
-    tree_height=256,
-    raw_default_value=None,
-    raw_data=None,
-    root_path="./proofs/",
-    length_transform_salt=10,
-    setup_mrp=0,
-    setup_ltr=0,
-    id=None,
-    create_timestamp=False
-)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">MerkleProver</span><span class="p">(</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">prover_name</span><span class="o">=</span><span class="s2">"default_mrp"</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">aggregator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">transformer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">zkp_scale</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">tree_height</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">raw_default_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">raw_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">root_path</span><span class="o">=</span><span class="s2">"./proofs/"</span><span class="p">,</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">length_transform_salt</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">setup_mrp</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">setup_ltr</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="n">create_timestamp</span><span class="o">=</span><span class="kc">False</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="p">)</span>
+</code></pre></div>
 <table>
 <thead>
 <tr>
@@ -2171,12 +2171,13 @@ MerkleProver(
 </tbody>
 </table>
 <p><strong>Artifact directories created by <code>__init__</code>:</strong></p>
-<p><code>root_path/&lt;prover_name&gt;/&lt;uuid&gt;/
-├── mrp_keys/          ← compiled MRP circuit, pk, vk, settings.json
-├── ltr_keys/          ← compiled LTR circuit, pk, vk, settings.json
-└── proof-results-&lt;timestamp&gt;/
-    ├── mrp/           ← per-step witness/input/proof files
-    └── ltr/           ← per-record witness/input/proof files</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>root_path/&lt;prover_name&gt;/&lt;uuid&gt;/
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>├── mrp_keys/          ← compiled MRP circuit, pk, vk, settings.json
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>├── ltr_keys/          ← compiled LTR circuit, pk, vk, settings.json
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>└── proof-results-&lt;timestamp&gt;/
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    ├── mrp/           ← per-step witness/input/proof files
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    └── ltr/           ← per-record witness/input/proof files
+</code></pre></div>
 <hr />
 <h2 id="initialisation-methods">Initialisation methods<a class="headerlink" href="#initialisation-methods" title="Permanent link">&para;</a></h2>
 <h3 id="create_timestamped_foldercreate_timestamptrue"><code>create_timestamped_folder(create_timestamp=True)</code><a class="headerlink" href="#create_timestamped_foldercreate_timestamptrue" title="Permanent link">&para;</a></h3>

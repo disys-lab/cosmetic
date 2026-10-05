@@ -1685,7 +1685,8 @@
 
 <h1 id="logisticlrt-moduleslogisticlrtpy"><code>LogisticLRT</code> — <code>modules/LogisticLRT.py</code><a class="headerlink" href="#logisticlrt-moduleslogisticlrtpy" title="Permanent link">&para;</a></h1>
 <p>Proves the <strong>Likelihood Ratio Test (LRT)</strong> statistic comparing a full logistic regression model against a reduced (intercept-only) model.</p>
-<p><code>LRT = -2 * (ll_reduced - ll_full) = 2 * (ll_full - ll_reduced)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>LRT = -2 * (ll_reduced - ll_full) = 2 * (ll_full - ll_reduced)
+</code></pre></div>
 <p>Two SMTs are built using <code>LogLogLikelihood</code> as the transformer, one for each model. The <code>LRTStatistic</code> post-aggregator then takes both root values and generates a zk-SNARK for the LRT statistic itself.</p>
 <table>
 <thead>
@@ -1712,8 +1713,8 @@
 </tbody>
 </table>
 <h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
-<p><code>python
-LogisticLRT(proof_root_path="./proofs/")</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">LogisticLRT</span><span class="p">(</span><span class="n">proof_root_path</span><span class="o">=</span><span class="s2">"./proofs/"</span><span class="p">)</span>
+</code></pre></div>
 <p><strong>Environment variables read on construction:</strong></p>
 <table>
 <thead>

@@ -1769,15 +1769,16 @@
 
 <h1 id="maxabsgap-postaggregatorsmaxgappy"><code>MaxAbsGap</code> — <code>postaggregators/MaxGap.py</code><a class="headerlink" href="#maxabsgap-postaggregatorsmaxgappy" title="Permanent link">&para;</a></h1>
 <p>Computes and proves the <strong>KS test statistic</strong> — the maximum absolute gap between the empirical CDFs of two histogram-summarised samples:</p>
-<p><code>cdf_a = cumsum(a[:, :n_bins]) / sum(a)
-cdf_b = cumsum(b[:, :n_bins]) / sum(b)
-KS    = max(|cdf_a - cdf_b|)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>cdf_a = cumsum(a[:, :n_bins]) / sum(a)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>cdf_b = cumsum(b[:, :n_bins]) / sum(b)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>KS    = max(|cdf_a - cdf_b|)
+</code></pre></div>
 <p>where <code>a</code> and <code>b</code> are the root values of the two sample SMTs (bin-count histograms produced by <code>BinCount</code>).</p>
 <h2 id="inner-class-absgapmodel-torchnnmodule">Inner class: <code>AbsGapModel</code> (torch.nn.Module)<a class="headerlink" href="#inner-class-absgapmodel-torchnnmodule" title="Permanent link">&para;</a></h2>
 <p>Computes the CDF-based KS statistic from two histogram tensors.</p>
 <h3 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h3>
-<p><code>python
-AbsGapModel(nbins=1)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">AbsGapModel</span><span class="p">(</span><span class="n">nbins</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1828,14 +1829,14 @@ AbsGapModel(nbins=1)</code></p>
 <hr />
 <h2 id="maxabsgap-class"><code>MaxAbsGap</code> class<a class="headerlink" href="#maxabsgap-class" title="Permanent link">&para;</a></h2>
 <h3 id="constructor_1">Constructor<a class="headerlink" href="#constructor_1" title="Permanent link">&para;</a></h3>
-<p><code>python
-MaxAbsGap(
-    outdir_name="abs_gap_zk_api",
-    zkp_scale=10,
-    shape=None,
-    nbins=None,
-    trailer_extras=2
-)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">MaxAbsGap</span><span class="p">(</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="n">outdir_name</span><span class="o">=</span><span class="s2">"abs_gap_zk_api"</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="n">zkp_scale</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="n">shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="n">nbins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">trailer_extras</span><span class="o">=</span><span class="mi">2</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">)</span>
+</code></pre></div>
 <table>
 <thead>
 <tr>

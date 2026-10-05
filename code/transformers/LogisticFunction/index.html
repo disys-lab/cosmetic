@@ -1565,14 +1565,15 @@
 
 <h1 id="logisticregression-transformerslogisticfunctionpy"><code>LogisticRegression</code> — <code>transformers/LogisticFunction.py</code><a class="headerlink" href="#logisticregression-transformerslogisticfunctionpy" title="Permanent link">&para;</a></h1>
 <p><strong>Logistic accuracy contribution transformer.</strong> Computes the per-record accuracy contribution of a logistic classifier — i.e., whether the model's binary prediction matches the true label — normalised by the total sample size <code>N</code>.</p>
-<p><code>eta = x @ coefs^T
-pred = (eta &gt;= 0) ? 1 : 0
-result = (pred == y) ? 1/N : 0
-SLT_i = Concat(result, TS_i)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>eta = x @ coefs^T
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>pred = (eta &gt;= 0) ? 1 : 0
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>result = (pred == y) ? 1/N : 0
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>SLT_i = Concat(result, TS_i)
+</code></pre></div>
 <p>When summed across all records (via the <code>Adder</code> aggregator), the SMT root value equals the overall classification accuracy.</p>
 <h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
-<p><code>python
-LogisticRegression(size=0, length_transform_salt=0, beta=None, sample_size=None)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">LogisticRegression</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">length_transform_salt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
 <table>
 <thead>
 <tr>

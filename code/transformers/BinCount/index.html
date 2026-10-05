@@ -1565,12 +1565,13 @@
 
 <h1 id="bincount-transformersbincountpy"><code>BinCount</code> — <code>transformers/BinCount.py</code><a class="headerlink" href="#bincount-transformersbincountpy" title="Permanent link">&para;</a></h1>
 <p><strong>Histogram bin-count transformer.</strong> Assigns each scalar data record to a histogram bin defined by a set of edges, producing a one-hot bin-membership vector, then appends the transform salt. Used for the KS test.</p>
-<p><code>bin_mask = one_hot_bin_assignment(SD_i[0], edges)
-SLT_i = Concat(bin_mask.flatten(), TS_i)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>bin_mask = one_hot_bin_assignment(SD_i[0], edges)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>SLT_i = Concat(bin_mask.flatten(), TS_i)
+</code></pre></div>
 <p>The scalar feature <code>a[:, 0]</code> is linearly rescaled from the source range <code>[0, 31]</code> to the edge range before binning.</p>
 <h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
-<p><code>python
-BinCount(size=0, length_transform_salt=0, edges=None)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">BinCount</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">length_transform_salt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">edges</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
 <table>
 <thead>
 <tr>

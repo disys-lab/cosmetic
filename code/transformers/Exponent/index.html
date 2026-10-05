@@ -1565,12 +1565,13 @@
 
 <h1 id="exponent-transformersexponentpy"><code>Exponent</code> — <code>transformers/Exponent.py</code><a class="headerlink" href="#exponent-transformersexponentpy" title="Permanent link">&para;</a></h1>
 <p><strong>Elementwise exponentiation transformer.</strong> Raises each element of <code>SD_i</code> to a fixed integer power, then appends the transform salt.</p>
-<p><code>TSD_i = SD_i ^ exponent   (elementwise)
-SLT_i = Concat(TSD_i, TS_i)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>TSD_i = SD_i ^ exponent   (elementwise)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>SLT_i = Concat(TSD_i, TS_i)
+</code></pre></div>
 <p>Supported exponents: <code>0</code>, <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>. Any other value returns zeros (fallback branch).</p>
 <h2 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h2>
-<p><code>python
-Exponent(exponent=1, size=0, length_transform_salt=0)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">Exponent</span><span class="p">(</span><span class="n">exponent</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">length_transform_salt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
 <table>
 <thead>
 <tr>
